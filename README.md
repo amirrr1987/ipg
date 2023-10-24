@@ -1,46 +1,99 @@
-# ipg
+# Internet Payment Gateway (IPG)
 
-This template should help get you started developing with Vue 3 in Vite.
+[![Version](https://img.shields.io/badge/version-0.0.0-brightgreen)](https://github.com/amirrr1987/ipg)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/amirrr1987/ipg/blob/main/LICENSE)
 
-## Recommended IDE Setup
+## Description
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+IPG (Internet Payment Gateway) is a versatile payment gateway solution built with modern web technologies. It enables secure and efficient online payment processing and can be easily integrated into various web applications. This project is developed using Vue.js, Vite, and other libraries.
 
-## Type Support for `.vue` Imports in TS
+You can see a live demo of this Internet Payment Gateway at [https://ipg-amirmaghami.netlify.app](https://ipg-amirmaghami.netlify.app).
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Features
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Accept online payments from customers securely.
+- Efficient transaction processing.
+- Customizable user interface to fit your application's design.
+- Easy integration into web applications.
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+## Project Structure
 
-## Customize configuration
+The project structure is organized as follows:
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- `src/`: Contains the source code for the Internet Payment Gateway application.
+- `public/`: Static assets used in the application.
+- `dist/`: The output directory for the build process.
+- `package.json`: Configuration file with project dependencies and scripts.
+- Other configuration files: Various configuration files for tools used in the project.
 
-## Project Setup
+## Dependencies
 
-```sh
-npm install
-```
+Here are some of the key dependencies used in this project:
 
-### Compile and Hot-Reload for Development
+- Vue.js: A progressive JavaScript framework for building user interfaces.
+- Vite: A fast build tool that leverages ES modules for modern web development.
+- Ant Design Vue: A UI library for Vue.js applications.
+- Pinia: A state management pattern and library for Vue.js.
+- Vue Router: The official router for Vue.js.
 
-```sh
-npm run dev
-```
+For a complete list of dependencies and devDependencies, please refer to the [package.json](https://github.com/amirrr1987/ipg/blob/main/package.json) file.
 
-### Type-Check, Compile and Minify for Production
+## Installation
 
-```sh
-npm run build
-```
+1. Clone the repository:
 
-### Lint with [ESLint](https://eslint.org/)
+   ```bash
+   git clone https://github.com/amirrr1987/ipg.git
+   ```
 
-```sh
-npm run lint
-```
+2. Change to the project directory:
+
+   ```bash
+   cd ipg
+   ```
+
+3. Install the required dependencies:
+
+   ```bash
+   npm install
+   ```
+
+## Usage
+
+1. Configure your payment gateway settings in the project.
+2. Customize the user interface to match your application's design.
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Access the Internet Payment Gateway at `http://localhost:3000` (or the specified port).
+
+## Configuration
+
+You need to configure the Internet Payment Gateway by updating the relevant configuration files in the project. This may include API keys, payment processor details, and more.
+
+## License
+
+This project is open-source and available under the [MIT License](https://github.com/amirrr1987/ipg/blob/main/LICENSE).
+
+## Author
+
+- **Amir Maghami**
+  - Email: [maghami.a1987@gmail.com](mailto:maghami.a1987@gmail.com)
+  - Website: [https://amirmaghami.ir/](https://amirmaghami.ir/)
+
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Acknowledgments
+
+- Mention any libraries or resources that inspired your project.
+- Give credit to authors or projects you used as a reference.
+
+## Contact
+
+If you have any questions or want to reach out, you can contact the project maintainer at [maghami.a1987@gmail.com](mailto:maghami.a1987@gmail.com).
+

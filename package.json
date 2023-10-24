@@ -1,6 +1,6 @@
 {
   "name": "ipg",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,13 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
+  "author": {
+    "name": "Amir Maghami",
+    "email": "maghami.a1987@gmail.com",
+    "url": "https://amirmaghami.ir/"
+  },
   "dependencies": {
+    "@unocss/reset": "^0.57.1",
     "ant-design-vue": "4.x",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
