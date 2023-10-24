@@ -2,7 +2,8 @@
   <ConfigProvider
     :theme="{
       token: {
-        colorPrimary: '#00b96b'
+        colorPrimary: '#00b96b',
+        fontFamily: 'Vazirmatn'
       }
     }"
   >

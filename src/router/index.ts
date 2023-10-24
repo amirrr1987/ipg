@@ -11,7 +11,7 @@ const router = createRouter({
     {
       path: '/payment',
       name: 'ThePayment',
-      component: () => import('@/views/ThePayment.vue')
+      component: () => import('@/views/ThePayment')
     }
   ]
 })
