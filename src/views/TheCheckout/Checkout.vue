@@ -4,7 +4,7 @@
       <div class="flex-1">
         <div class="text-center mb-2">سبد خرید</div>
         <div class="shadow p-4 bg-white rounded mb-4">
-          <div class="flex justify-between" v-for="item in checkoutStore.checkout" :key="item._id">
+          <div class="flex justify-between" v-for="item in checkoutStore.products" :key="item._id">
             <div class="">{{ item.label }}</div>
             <div class="">{{ item.price }}</div>
           </div>

@@ -1,6 +1,12 @@
-export interface IProduct {
-  _id: number
-  label: string
-  price: number
-  count: number
-}
+import * as z from 'zod'
+
+export const ProductSchema = z
+  .object({
+    _id: z.number().readonly(),
+    label: z.string(),
+    price: z.number().nonnegative(),
+    count: z.number().int().nonnegative()
+  })
+  .strict()
+
+export type IProduct = z.infer<typeof ProductSchema>

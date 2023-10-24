@@ -1,10 +1,9 @@
 import { computed, ref, type ComputedRef } from 'vue'
 import { defineStore } from 'pinia'
-import { forEach } from 'lodash'
+import { forEach, size } from 'lodash'
 import type { IProduct } from '@/models'
 
 export const useCheckoutStore = defineStore('Checkout', () => {
-  
   const products = ref<IProduct[]>([
     {
       _id: 1,
@@ -34,6 +33,7 @@ export const useCheckoutStore = defineStore('Checkout', () => {
 
   const finalPrice: ComputedRef<number> = computed((): number => {
     let total: number = 0
+    if (size(products.value) === 0) return total
     forEach(products.value, (item: IProduct) => {
       total += item.price * item.count
     })
