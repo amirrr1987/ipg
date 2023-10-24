@@ -12,6 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@unocss/reset": "^0.57.1",
     "ant-design-vue": "4.x",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",

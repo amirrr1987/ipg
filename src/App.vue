@@ -2,11 +2,11 @@
   <ConfigProvider
     :theme="{
       token: {
-        colorPrimary: '#00b96b',
+        colorPrimary: '#00b96b'
       }
     }"
   >
-    <Button type="primary">asd</Button>
+    <RouterView />
   </ConfigProvider>
 </template>
 
@@ -14,7 +14,4 @@
 import { Button, ConfigProvider } from 'ant-design-vue'
 </script>
 
-<style lang="less">
-
-
-</style>
+<style lang="less"></style>
