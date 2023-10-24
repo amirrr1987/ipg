@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'TheCheckout',
-      component: () => import('@/views/TheCheckout.vue')
+      component: () => import('@/views/TheCheckout')
     },
     {
       path: '/payment',
