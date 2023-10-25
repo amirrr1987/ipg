@@ -33,6 +33,7 @@ import { Button, RadioGroup, Divider } from 'ant-design-vue/es'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCheckoutStore } from '@/stores/checkoutStore'
+
 const paymentType = ref('')
 
 const checkoutStore = useCheckoutStore()
