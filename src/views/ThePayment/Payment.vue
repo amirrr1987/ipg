@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 w-2/3">
       <div class="">header</div>
       <div class="">
         <div class="shadow bg-light">
@@ -10,22 +10,22 @@
         <div class="">
           <Form layout="vertical">
             <FormItem label="شماره کارت">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem label="شماره شناسایی ">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem label="تاریخ انقضای کارت">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem label="کد امنیتی">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem label="رمز امنیتی">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem label="ایمیل یا شماره تلفن همراه">
-              <Input />
+              <Input size="large" />
             </FormItem>
             <FormItem>
               <Button type="primary">پرداخت</Button>
