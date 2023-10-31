@@ -1,8 +1,8 @@
 <template>
-  <div class="h-screen">
+  <!-- <div class="h-screen">
     <div class="bg-green-600 h-20">header</div>
-    <div class="container mx-auto px-4 w-320">
-      <div class="grid grid-cols-[1fr_max-content] gap-8 p-8">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-[1fr_max-content] gap-8 p-8">
         <CardForm />
         <div class="p-8 flex flex-col gap-8">
           <BankCard />
@@ -10,14 +10,14 @@
         </div>
       </div>
     </div>
-    <Footer />
-  </div>
+  </div> -->
+<CardForm />
+
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
 import BankCard from '@/components/BankCard.vue'
-import Footer from '@/components/Footer.vue'
 import Acceptor from '@/components/Acceptor.vue'
 const card = ref({
   panNumber: '',

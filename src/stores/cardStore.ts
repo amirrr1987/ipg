@@ -7,12 +7,16 @@ export const useCardStore = defineStore('Card', () => {
     cvv2: '',
     month: '',
     year: '',
-    captcha: ''
+    captcha: '',
+    password: '',
+    email: ''
   })
-  const bank = ref('')
+  const bank = computed(() => {
+    return card.value.panNumber ? validatePanCard(card.value.panNumber) : ''
+  })
 
   return {
     card,
-    bank,
+    bank
   }
 })
