@@ -10,7 +10,7 @@ import type { AliasToken } from 'ant-design-vue/es/theme/interface/alias'
 import { reactive } from 'vue'
 
 const token = reactive<AliasToken>({
-  // colorPrimary: '
+  colorPrimary: '#2c9f45'
 } as AliasToken)
 </script>
 

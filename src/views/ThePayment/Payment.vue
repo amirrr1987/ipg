@@ -6,40 +6,19 @@
         <CardForm />
         <div class="p-8 flex flex-col gap-8">
           <BankCard />
-          <Card>
-            <div class="">
-              <div class="">نام پذیرنده :</div>
-            </div>
-            <div class="">
-              <div class="">مبلغ:</div>
-            </div>
-            <Divider />
-            <div class="">
-              <div class="">شماره فاکتور:</div>
-            </div>
-            <div class="">
-              <div class="">سایت پذیرنده:</div>
-            </div>
-          </Card>
+          <Acceptor />
         </div>
       </div>
     </div>
-    <div class="bg-green-700 py-12">
-      <div class="container mx-auto px-4 w-1/2 text-center">
-        <img src="../../assets/images/logo.png" alt="" />
-        <div class="">شرکت پرداخت الکترونیک سامان (سهامی عام)</div>
-        <div class="">2023-2024</div>
-        <div class="">تمامی حقوق این نرم‌افزار متعلق به سِپ (پرداخت الکترونیک سامان) می‌باشد.</div>
-        <div class="">مرکز شبانه روزی ارتباط با مشتریان: 021-84080</div>
-      </div>
-    </div>
+    <Footer />
   </div>
 </template>
 <script setup lang="ts">
-import {Card, Divider} from 'ant-design-vue/es'
 import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
-import BankCard from '@/components/BankCard.vue';
+import BankCard from '@/components/BankCard.vue'
+import Footer from '@/components/Footer.vue'
+import Acceptor from '@/components/Acceptor.vue'
 const card = ref({
   panNumber: '',
   cvv2: '',
