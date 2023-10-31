@@ -1,5 +1,5 @@
 import 'virtual:uno.css'
-import '@unocss/reset/tailwind.css'
+import 'ant-design-vue/dist/reset.css'
 import '@/assets/styles/main.less'
 
 import { createApp } from 'vue'

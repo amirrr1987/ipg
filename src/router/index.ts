@@ -5,11 +5,6 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'TheCheckout',
-      component: () => import('@/views/TheCheckout')
-    },
-    {
-      path: '/payment',
       name: 'ThePayment',
       component: () => import('@/views/ThePayment')
     }

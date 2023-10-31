@@ -1,18 +1,17 @@
 <template>
-  <ConfigProvider
-    :theme="{
-      token: {
-        colorPrimary: '#00b96b',
-        fontFamily: 'Vazirmatn'
-      }
-    }"
-  >
+  <ConfigProvider :theme="{ token }">
     <RouterView />
   </ConfigProvider>
 </template>
 
 <script setup lang="ts">
-import { Button, ConfigProvider } from 'ant-design-vue'
+import { ConfigProvider } from 'ant-design-vue'
+import type { AliasToken } from 'ant-design-vue/es/theme/interface/alias'
+import { reactive } from 'vue'
+
+const token = reactive<AliasToken>({
+  // colorPrimary: '
+} as AliasToken)
 </script>
 
 <style lang="less"></style>

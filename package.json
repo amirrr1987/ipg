@@ -1,6 +1,6 @@
 {
   "name": "ipg",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,7 @@
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
+    "vue-the-mask": "^0.11.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -31,6 +32,8 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/lodash": "^4.14.200",
     "@types/node": "^18.17.17",
+    "@types/vue-the-mask": "^0.11.4",
+    "@unocss/eslint-config": "^0.57.1",
     "@unocss/transformer-compile-class": "^0.57.1",
     "@unocss/transformer-directives": "^0.57.1",
     "@vitejs/plugin-vue": "^4.3.4",
