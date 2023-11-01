@@ -159,32 +159,6 @@ const bankLookup = [
 export function validatePanCard(panNumber: string) {
   // First, remove non-numeric characters from the PAN card number.
   const sanitizedPan = panNumber.replace(/[^\d]/g, '')
-
-  // Check if the PAN card number has the correct length (it should be 16 digits).
-  if (sanitizedPan.length !== 16) {
-    return 'شماره کارت نامعتبر'
-  }
-
-  // Calculate the control digit.
-  const panArray = sanitizedPan.split('').map(Number)
-  let sum = 0
-  for (let i = 0; i < 16; i++) {
-    let digit = panArray[i]
-    if (i % 2 === 0) {
-      digit *= 2
-      if (digit > 9) {
-        digit -= 9
-      }
-    }
-    sum += digit
-  }
-
-  // Check the control digit.
-  if (sum % 10 !== 0) {
-    return 'شماره کارت نامعتبر'
-  }
-
-  // Extract the first 6 digits.
   const first6Digits = sanitizedPan.slice(0, 6)
 
   const bankIndex = bankLookup.findIndex((bank) => bank.id === first6Digits)
@@ -192,6 +166,29 @@ export function validatePanCard(panNumber: string) {
   if (bankIndex > -1) {
     return bankLookup[bankIndex]
   } else {
+    // Check if the PAN card number has the correct length (it should be 16 digits).
+    if (sanitizedPan.length !== 16) {
+      return 'شماره کارت نامعتبر'
+    }
+
+    // Calculate the control digit.
+    const panArray = sanitizedPan.split('').map(Number)
+    let sum = 0
+    for (let i = 0; i < 16; i++) {
+      let digit = panArray[i]
+      if (i % 2 === 0) {
+        digit *= 2
+        if (digit > 9) {
+          digit -= 9
+        }
+      }
+      sum += digit
+    }
+
+    // Check the control digit.
+    if (sum % 10 !== 0) {
+      return 'شماره کارت نامعتبر'
+    }
     return 'شماره کارت معتبر (بدون تعیین بانک)'
   }
 }

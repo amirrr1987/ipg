@@ -14,7 +14,7 @@
         :rules="[{ required: true, message: '' }]"
       >
         <Input
-          class="text-lg text-gray-500"
+          class="text-lg text-gray-500 h-11"
           :class="ltrInputComputed(cardStore.card.panNumber)"
           type="text"
           inputmode="numeric"
@@ -25,7 +25,11 @@
           v-model:value="cardStore.card.panNumber"
           ref="panNumberInput"
           @input="checkLength(cardStore.card.panNumber, 19, $refs.cvv2Input)"
-        />
+        >
+          <template #suffix>
+            <img class="h-7 rounded" :src="`../images/logos/${cardStore.bank.img}.png`" alt="" />
+          </template>
+        </Input>
       </FormItem>
       <FormItem
         class="mb-0 col-span-full"
@@ -34,7 +38,7 @@
         :rules="[{ required: true, message: '' }]"
       >
         <Input
-          class="text-lg text-gray-500"
+          class="text-lg text-gray-500 h-11"
           :class="ltrInputComputed(cardStore.card.cvv2)"
           type="password"
           inputmode="numeric"
@@ -55,11 +59,11 @@
           </template>
         </Input>
       </FormItem>
-      <FormItem label="تاریخ انقضا" class="mb-0  col-span-full">
+      <FormItem label="تاریخ انقضا" class="mb-0 col-span-full">
         <div class="grid grid-cols-[1fr_max-content_1fr] items-center gap-4">
           <FormItem class="mb-0" name="month" :rules="[{ required: true, message: '' }]">
             <Input
-              class="ltr text-lg text-gray-500 text-center"
+              class="ltr text-lg text-gray-500 text-center h-11"
               type="text"
               inputmode="numeric"
               placeholder="ماه"
@@ -76,7 +80,7 @@
           </FormItem>
           <FormItem class="mb-0" name="year" :rules="[{ required: true, message: '' }]">
             <Input
-              class="ltr text-lg text-gray-500 text-center"
+              class="ltr text-lg text-gray-500 text-center h-11"
               type="text"
               inputmode="numeric"
               placeholder="سال"
@@ -98,7 +102,7 @@
         :rules="[{ required: true, message: '' }]"
       >
         <Input
-          class="text-lg text-gray-500"
+          class="text-lg text-gray-500 h-11"
           :class="ltrInputComputed(cardStore.card.captcha)"
           type="text"
           inputmode="numeric"
@@ -131,7 +135,7 @@
           <span class="opacity-0">d</span>
         </template>
         <div
-          class="border border-solid rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50"
+          class="border border-solid rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50 h-11"
         >
           {{ randomNumber }}
         </div>
@@ -144,7 +148,7 @@
         :rules="[{ required: true, message: '' }]"
       >
         <Input
-          class="text-lg text-gray-500"
+          class="text-lg text-gray-500 h-11"
           type="password"
           inputmode="numeric"
           placeholder="رمز اینترنتی"
@@ -162,12 +166,12 @@
         <template #label>
           <span class="opacity-0">.</span>
         </template>
-        <Button type="primary" size="large" block class="!"> درخواست رمز پویا </Button>
+        <Button type="primary" size="large" block class="!h-11"> درخواست رمز پویا </Button>
       </FormItem>
 
       <FormItem label="ایمیل یا موبایل (اختیاری)" class="mb-0 col-span-full" :rules="emailOrMobile">
         <Input
-          class="text-lg text-gray-500"
+          class="text-lg text-gray-500 h-11"
           type="text"
           inputmode="text"
           placeholder="ایمیل یا موبایل"
@@ -178,17 +182,14 @@
           ref="emailInput"
         />
       </FormItem>
-
-      <div class="col-span-full grid grid-cols-5 gap-4">
-        <FormItem class="col-span-2 mb-0">
-          <Button type="primary" ghost size="large" block class="!" @click="cancelHandler"
-            >انصراف</Button
-          >
-        </FormItem>
-        <FormItem class="col-span-3 mb-0">
-          <Button type="primary" size="large" block class="!" @click="callSubmit">پرداخت</Button>
-        </FormItem>
-      </div>
+      <FormItem class="mb-0 mt-6">
+        <Button type="primary" ghost size="large" block class="!h-11" @click="cancelHandler"
+          >انصراف</Button
+        >
+      </FormItem>
+      <FormItem class="mb-0 mt-6">
+        <Button type="primary" size="large" block class="!h-11" @click="callSubmit">پرداخت</Button>
+      </FormItem>
     </Form>
   </Card>
 </template>
@@ -199,7 +200,7 @@ import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
 import BankCard from '@/components/BankCard.vue'
 import Keyboard from '@/components/Keyboard.vue'
-import { onMounted, ref, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 const cardStore = useCardStore()
 
 // generate random number for captcha 5 digit
@@ -280,11 +281,6 @@ const callSubmit = () => {
 const cancelHandler = () => {}
 </script>
 <style lang="less">
-/* .ant-input-affix-wrapper > input.ant-input {
-  text-align: center;
-  margin-right: 32px;
-} */
-// input-ltr if have ant-input-suffix input tag direction ltr if not have ant-input-suffix input-ltr is direction ltr
 input.input-ltr {
   direction: ltr;
 }

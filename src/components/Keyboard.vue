@@ -1,5 +1,5 @@
 <template>
-  <Popover title="صفحه کلید امن" trigger="click" :visible="isActive" @open-change="openChange">
+  <Popover title="صفحه کلید امن" trigger="click" :open="isActive" @open-change="openChange">
     <template #content>
       <div class="grid grid-cols-3 gap-2">
         <template v-for="item in random" :key="item">
@@ -31,7 +31,7 @@ import { computed, ref } from 'vue'
 
 interface Props {
   keyboard: string
-  max: number
+  max?: number
 }
 const props = withDefaults(defineProps<Props>(), {
   keyboard: '',

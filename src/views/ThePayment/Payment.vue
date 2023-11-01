@@ -14,8 +14,8 @@
   <div class="lg:grid lg:grid-cols-3 lg:gap-4">
     <CardForm class="lg:col-span-2" />
     <div class="hidden lg:flex lg:flex-col lg:gap-8">
-      <BankCard />
       <Acceptor />
+      <BankCard />
     </div>
   </div>
 </template>

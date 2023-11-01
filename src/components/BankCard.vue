@@ -1,17 +1,17 @@
 <template>
-  <Card class="bg grid">
+  <Card class="bg grid ">
     <div class="h-full grid grid-rows-3 w-full">
-      <div class="">s</div>
-      <div class="text-2xl">
+      <div class=""></div>
+      <div class="mt-4 text-2xl ltr text-center">
         {{ cardStore.card.panNumber }}
       </div>
       <div class="flex justify-between self-end">
         <div class="">
           {{ cardStore.card.month }}
-          /
+          <span v-if="cardStore.card.month">/</span>
           {{ cardStore.card.year }}
         </div>
-        <div class="ltr">
+        <div class="ltr" v-if="cardStore.card.cvv2">
           CVV2: 
           <template v-for="_item in cardStore.card.cvv2" :key="_item"> * </template>
         </div>
