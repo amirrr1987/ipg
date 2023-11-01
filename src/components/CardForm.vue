@@ -1,8 +1,6 @@
 <template>
   <Card>
     <Form class="grid grid-cols-2 gap-x-4 gap-y-6" layout="vertical">
-      <!-- <BankCard class="col-span-full" /> -->
-      {{ cardStore.card.panNumber.length }}
       <FormItem class="col-span-full mb-0" label="شماره کارت">
         <Input
           class="h-11 text-lg text-gray-500"
@@ -162,21 +160,21 @@ import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
 import BankCard from '@/components/BankCard.vue'
 import Keyboard from '@/components/Keyboard.vue'
-import { ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 const cardStore = useCardStore()
 
 // generate random number for captcha 5 digit
-const randomNumber = ref()
+const randomNumber = ref<number>(0)
 const generateRandomNumber = () => {
   randomNumber.value = Math.floor(10000 + Math.random() * 90000)
 }
-
+onMounted(() => generateRandomNumber())
 // computed to detect if input is not empty add direction ltr
 const ltrInputComputed = (value: string) => {
   return value ? 'input-ltr' : 'auto'
 }
 // when mask is complete go to next input field tabindex + 1
-const checkLength = (value, max, ref) => {
+const checkLength = (value: string, max: number, ref: any) => {
   if (value.length === max) {
     ref.focus()
   }
