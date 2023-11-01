@@ -1,5 +1,5 @@
 <template>
-  <Popover title="صفحه کلید امن" trigger="click">
+  <Popover title="صفحه کلید امن" trigger="click" :visible="isActive" @open-change="openChange">
     <template #content>
       <div class="grid grid-cols-3 gap-2">
         <template v-for="item in random" :key="item">
@@ -25,18 +25,20 @@
 <script setup lang="ts">
 import { Button, Popover } from 'ant-design-vue/es'
 import { Icon } from '@iconify/vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 // props
 
 interface Props {
   keyboard: string
+  max: number
 }
 const props = withDefaults(defineProps<Props>(), {
-  keyboard: ''
+  keyboard: '',
+  max: 0
 })
 
-const emits = defineEmits(['update:keyboard'])
+const emits = defineEmits(['update:keyboard', 'next'])
 
 // virtual keyboard for password width random sort 0-9
 const random = computed(() => {
@@ -46,10 +48,20 @@ const random = computed(() => {
   }
   return arr.sort(() => Math.random() - 0.5)
 })
+const isActive = ref<boolean>(false)
 
+const openChange = (e) => {
+  console.log(e)
+  isActive.value = e
+}
 // push number to  props.keyboard
 const pushNumber = (item: number) => {
-  emits('update:keyboard', props.keyboard + item)
+  if (props.max > props.keyboard.length) {
+    emits('update:keyboard', props.keyboard + item)
+  } else {
+    emits('next')
+    isActive.value = false
+  }
 }
 
 // backspace
@@ -65,6 +77,6 @@ const clean = () => {
 
 <style lang="less" scoped>
 .ant-btn {
-    line-height: 26px;
+  line-height: 26px;
 }
 </style>

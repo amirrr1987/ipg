@@ -1,9 +1,20 @@
 <template>
   <Card>
-    <Form class="grid grid-cols-2 gap-x-4 gap-y-6" layout="vertical">
-      <FormItem class="col-span-full mb-0" label="شماره کارت">
+    <Form
+      class="grid grid-cols-2 gap-x-4 gap-y-6"
+      layout="vertical"
+      @submit="submitForm"
+      ref="formRef"
+      :model="cardStore.card"
+    >
+      <FormItem
+        class="mb-0 col-span-full"
+        label="شماره کارت"
+        name="panNumber"
+        :rules="[{ required: true, message: '' }]"
+      >
         <Input
-          class="h-11 text-lg text-gray-500"
+          class="text-lg text-gray-500"
           :class="ltrInputComputed(cardStore.card.panNumber)"
           type="text"
           inputmode="numeric"
@@ -16,9 +27,14 @@
           @input="checkLength(cardStore.card.panNumber, 19, $refs.cvv2Input)"
         />
       </FormItem>
-      <FormItem label="CVV2" class="col-span-full mb-0">
+      <FormItem
+        class="mb-0 col-span-full"
+        label="CVV2"
+        name="cvv2"
+        :rules="[{ required: true, message: '' }]"
+      >
         <Input
-          class="h-11 text-lg text-gray-500"
+          class="text-lg text-gray-500"
           :class="ltrInputComputed(cardStore.card.cvv2)"
           type="password"
           inputmode="numeric"
@@ -31,15 +47,19 @@
           @input="checkLength(cardStore.card.cvv2, 5, $refs.MonthInput)"
         >
           <template #suffix>
-            <Keyboard v-model:keyboard="cardStore.card.cvv2" />
+            <Keyboard
+              v-model:keyboard="cardStore.card.cvv2"
+              :max="5"
+              @next="checkLength(cardStore.card.cvv2, 5, $refs.MonthInput)"
+            />
           </template>
         </Input>
       </FormItem>
-      <FormItem label="تاریخ انقضا" class="col-span-full mb-0">
+      <FormItem label="تاریخ انقضا" class="mb-0  col-span-full">
         <div class="grid grid-cols-[1fr_max-content_1fr] items-center gap-4">
-          <FormItem class="mb-0">
+          <FormItem class="mb-0" name="month" :rules="[{ required: true, message: '' }]">
             <Input
-              class="h-11 ltr text-lg text-gray-500 text-center"
+              class="ltr text-lg text-gray-500 text-center"
               type="text"
               inputmode="numeric"
               placeholder="ماه"
@@ -54,9 +74,9 @@
           <FormItem class="mb-0">
             <span class="text-xl">/</span>
           </FormItem>
-          <FormItem class="mb-0">
+          <FormItem class="mb-0" name="year" :rules="[{ required: true, message: '' }]">
             <Input
-              class="h-11 ltr text-lg text-gray-500 text-center"
+              class="ltr text-lg text-gray-500 text-center"
               type="text"
               inputmode="numeric"
               placeholder="سال"
@@ -71,9 +91,14 @@
         </div>
       </FormItem>
 
-      <FormItem label="کد امنیتی" class="mb-0">
+      <FormItem
+        label="کد امنیتی"
+        class="mb-0 col-span-1"
+        name="captcha"
+        :rules="[{ required: true, message: '' }]"
+      >
         <Input
-          class="h-11 text-lg text-gray-500"
+          class="text-lg text-gray-500"
           :class="ltrInputComputed(cardStore.card.captcha)"
           type="text"
           inputmode="numeric"
@@ -86,7 +111,14 @@
           @input="checkLength(cardStore.card.captcha, 5, $refs.passwordInput)"
         >
           <template #suffix>
-            <Button type="link" @click="generateRandomNumber">
+            <Button
+              type="link"
+              @click="
+                () => (
+                  (cardStore.card.captcha = ''), generateRandomNumber(), $refs.captchaInput.focus()
+                )
+              "
+            >
               <template #icon>
                 <Icon class="text-2xl text-green-600" icon="jam:refresh-reverse" />
               </template>
@@ -99,15 +131,20 @@
           <span class="opacity-0">d</span>
         </template>
         <div
-          class="border border-solid h-11 rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50"
+          class="border border-solid rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50"
         >
           {{ randomNumber }}
         </div>
       </FormItem>
 
-      <FormItem label="رمز اینترنتی" class="mb-0">
+      <FormItem
+        label="رمز اینترنتی"
+        class="mb-0"
+        name="password"
+        :rules="[{ required: true, message: '' }]"
+      >
         <Input
-          class="h-11 text-lg text-gray-500"
+          class="text-lg text-gray-500"
           type="password"
           inputmode="numeric"
           placeholder="رمز اینترنتی"
@@ -125,12 +162,12 @@
         <template #label>
           <span class="opacity-0">.</span>
         </template>
-        <Button type="primary" size="large" block class="!h-11"> درخواست رمز پویا </Button>
+        <Button type="primary" size="large" block class="!"> درخواست رمز پویا </Button>
       </FormItem>
 
-      <FormItem label="ایمیل یا موبایل (اختیاری)" class="col-span-full mb-0">
+      <FormItem label="ایمیل یا موبایل (اختیاری)" class="mb-0 col-span-full" :rules="emailOrMobile">
         <Input
-          class="h-11 text-lg text-gray-500"
+          class="text-lg text-gray-500"
           type="text"
           inputmode="text"
           placeholder="ایمیل یا موبایل"
@@ -144,10 +181,12 @@
 
       <div class="col-span-full grid grid-cols-5 gap-4">
         <FormItem class="col-span-2 mb-0">
-          <Button type="primary" ghost size="large" block class="!h-11">انصراف</Button>
+          <Button type="primary" ghost size="large" block class="!" @click="cancelHandler"
+            >انصراف</Button
+          >
         </FormItem>
         <FormItem class="col-span-3 mb-0">
-          <Button type="primary" size="large" block class="!h-11">پرداخت</Button>
+          <Button type="primary" size="large" block class="!" @click="callSubmit">پرداخت</Button>
         </FormItem>
       </div>
     </Form>
@@ -197,6 +236,48 @@ const validateInput = () => {
     // Handle the input accordingly
   }
 }
+const validateEmailOrMobile = (_rule: any, value: string) => {
+  if (value) {
+    // Check if the input is a valid email
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+      // It's a valid email
+      // Handle email input
+    }
+    // Check if the input is a valid mobile number
+    else if (/^[0-9]{10}$/.test(value)) {
+      // It's a valid mobile number
+      // Handle mobile input
+    } else {
+      // Neither a valid email nor a valid mobile number
+      // Handle the input accordingly
+    }
+  }
+}
+const emailOrMobile = [
+  {
+    required: false,
+    message: 'لطفا یک ایمیل یا شماره موبایل معتبر وارد کنید',
+    validator: validateEmailOrMobile
+  }
+]
+
+const formRef = ref()
+const submitForm = () => {
+  console.log(cardStore.card)
+  formRef.value
+    .validate()
+    .then(() => {
+      console.log('values', cardStore.card)
+    })
+    .catch((error) => {
+      console.log('error', error)
+    })
+}
+const callSubmit = () => {
+  submitForm()
+}
+
+const cancelHandler = () => {}
 </script>
 <style lang="less">
 /* .ant-input-affix-wrapper > input.ant-input {
