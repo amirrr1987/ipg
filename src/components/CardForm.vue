@@ -2,6 +2,7 @@
   <Card>
     <Form class="grid grid-cols-2 gap-x-4 gap-y-6" layout="vertical">
       <!-- <BankCard class="col-span-full" /> -->
+      {{ cardStore.card.panNumber.length }}
       <FormItem class="col-span-full mb-0" label="شماره کارت">
         <Input
           class="h-11 text-lg text-gray-500"
@@ -13,6 +14,8 @@
           v-maska
           data-maska="#### #### #### ####"
           v-model:value="cardStore.card.panNumber"
+          ref="panNumberInput"
+          @input="checkLength(cardStore.card.panNumber, 19, $refs.cvv2Input)"
         />
       </FormItem>
       <FormItem label="CVV2" class="col-span-full mb-0">
@@ -26,6 +29,8 @@
           v-maska
           data-maska="#####"
           v-model:value="cardStore.card.cvv2"
+          ref="cvv2Input"
+          @input="checkLength(cardStore.card.cvv2, 5, $refs.MonthInput)"
         >
           <template #suffix>
             <Keyboard v-model:keyboard="cardStore.card.cvv2" />
@@ -44,6 +49,8 @@
               v-maska
               data-maska="##"
               v-model:value="cardStore.card.month"
+              ref="MonthInput"
+              @input="checkLength(cardStore.card.month, 2, $refs.yearInput)"
             />
           </FormItem>
           <FormItem class="mb-0">
@@ -59,6 +66,8 @@
               v-maska
               data-maska="##"
               v-model:value="cardStore.card.year"
+              ref="yearInput"
+              @input="checkLength(cardStore.card.year, 2, $refs.captchaInput)"
             />
           </FormItem>
         </div>
@@ -75,6 +84,8 @@
           v-maska
           data-maska="#####"
           v-model:value="cardStore.card.captcha"
+          ref="captchaInput"
+          @input="checkLength(cardStore.card.captcha, 5, $refs.passwordInput)"
         >
           <template #suffix>
             <Button type="link" @click="generateRandomNumber">
@@ -105,6 +116,7 @@
           size="large"
           v-model:value="cardStore.card.password"
           :class="ltrInputComputed(cardStore.card.password)"
+          ref="passwordInput"
         >
           <template #suffix>
             <Keyboard v-model:keyboard="cardStore.card.password" />
@@ -128,6 +140,7 @@
           v-model:value="cardStore.card.email"
           :class="ltrInputComputed(cardStore.card.email)"
           @input="validateInput"
+          ref="emailInput"
         />
       </FormItem>
 
@@ -161,6 +174,12 @@ const generateRandomNumber = () => {
 // computed to detect if input is not empty add direction ltr
 const ltrInputComputed = (value: string) => {
   return value ? 'input-ltr' : 'auto'
+}
+// when mask is complete go to next input field tabindex + 1
+const checkLength = (value, max, ref) => {
+  if (value.length === max) {
+    ref.focus()
+  }
 }
 
 const validateInput = () => {
