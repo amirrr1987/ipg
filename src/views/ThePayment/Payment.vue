@@ -11,10 +11,10 @@
       </div>
     </div>
   </div> -->
-  <div class="lg:grid lg:grid-cols-3 gap-4">
-    <CardForm class="col-span-2" />
+  <div class="lg:grid lg:grid-cols-3 lg:gap-4">
+    <CardForm class="lg:col-span-2" />
     <!-- <Card> -->
-    <div class="p-8 flex flex-col gap-8">
+    <div class=" hidden lg:p-8 lg:flex lg:flex-col lg:gap-8">
       <Acceptor />
       <BankCard />
     </div>
