@@ -13,12 +13,10 @@
   </div> -->
   <div class="lg:grid lg:grid-cols-3 lg:gap-4">
     <CardForm class="lg:col-span-2" />
-    <!-- <Card> -->
-    <div class=" hidden lg:p-8 lg:flex lg:flex-col lg:gap-8">
-      <Acceptor />
+    <div class="hidden lg:flex lg:flex-col lg:gap-8">
       <BankCard />
+      <Acceptor />
     </div>
-    <!-- </Card> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -26,7 +24,6 @@ import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
 import BankCard from '@/components/BankCard.vue'
 import Acceptor from '@/components/Acceptor.vue'
-import { Card } from 'ant-design-vue/es'
 // const card = ref({
 //   panNumber: '',
 //   cvv2: '',

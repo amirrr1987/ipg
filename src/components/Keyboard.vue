@@ -62,3 +62,9 @@ const clean = () => {
   emits('update:keyboard', '')
 }
 </script>
+
+<style lang="less" scoped>
+.ant-btn {
+    line-height: 26px;
+}
+</style>
