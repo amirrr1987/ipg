@@ -59,7 +59,11 @@
           </template>
         </Input>
       </FormItem>
-      <FormItem label="تاریخ انقضا" class="mb-0 col-span-full">
+      <FormItem
+        label="تاریخ انقضا"
+        class="mb-0 col-span-full"
+        :rules="[{ required: true, message: 'asd' }]"
+      >
         <div class="grid grid-cols-[1fr_max-content_1fr] items-center gap-4">
           <FormItem class="mb-0" name="month" :rules="[{ required: true, message: '' }]">
             <Input
@@ -166,7 +170,9 @@
         <template #label>
           <span class="opacity-0">.</span>
         </template>
-        <Button type="primary" size="large" block class="!h-11"> درخواست رمز پویا </Button>
+        <Button type="primary" size="large" block class="!h-11" @click="generatePassword">
+          درخواست رمز پویا
+        </Button>
       </FormItem>
 
       <FormItem label="ایمیل یا موبایل (اختیاری)" class="mb-0 col-span-full" :rules="emailOrMobile">
@@ -201,6 +207,8 @@ import { Icon } from '@iconify/vue'
 import BankCard from '@/components/BankCard.vue'
 import Keyboard from '@/components/Keyboard.vue'
 import { computed, onMounted, ref, type Ref } from 'vue'
+import { useAcceptorStore } from '@/stores/acceptorStore'
+import router from '@/router'
 const cardStore = useCardStore()
 
 // generate random number for captcha 5 digit
@@ -262,13 +270,22 @@ const emailOrMobile = [
   }
 ]
 
+const password = ref('')
+
+// generate random password bettwen 8 to 16 digit
+const generatePassword = () => {
+  password.value = Math.random().toString(36).slice(-8)
+}
+const acceptorStore = useAcceptorStore()
 const formRef = ref()
 const submitForm = () => {
-  console.log(cardStore.card)
   formRef.value
     .validate()
     .then(() => {
-      console.log('values', cardStore.card)
+      if (Number(acceptorStore.priceComputed) > 200_000_000) {
+        alert(453)
+      }
+      window.location.href = `${acceptorStore.urlComputed}`
     })
     .catch((error) => {
       console.log('error', error)
@@ -278,7 +295,9 @@ const callSubmit = () => {
   submitForm()
 }
 
-const cancelHandler = () => {}
+const cancelHandler = () => {
+  router.go(-1)
+}
 </script>
 <style lang="less">
 input.input-ltr {
