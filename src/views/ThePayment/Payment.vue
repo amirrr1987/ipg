@@ -11,48 +11,56 @@
       </div>
     </div>
   </div> -->
-<CardForm />
-
+  <div class="lg:grid lg:grid-cols-3 gap-4">
+    <CardForm class="col-span-2" />
+    <!-- <Card> -->
+    <div class="p-8 flex flex-col gap-8">
+      <Acceptor />
+      <BankCard />
+    </div>
+    <!-- </Card> -->
+  </div>
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
 import BankCard from '@/components/BankCard.vue'
 import Acceptor from '@/components/Acceptor.vue'
-const card = ref({
-  panNumber: '',
-  cvv2: '',
-  month: '',
-  year: '',
-  captcha: ''
-})
+import { Card } from 'ant-design-vue/es'
+// const card = ref({
+//   panNumber: '',
+//   cvv2: '',
+//   month: '',
+//   year: '',
+//   captcha: ''
+// })
 
-const cvv2 = ref('3243')
+// const cvv2 = ref('3243')
 
-const cvv2Computed = computed({
-  set: (value) => {
-    const sanitizedValue = value.replace(/\D/g, '') // Remove non-numeric characters
-    cvv2.value = sanitizedValue
-  },
-  get: () => {
-    const cvv2Value = cvv2.value
-    if (cvv2Value.length > 4) {
-      return cvv2Value.substring(0, 4) // Limit to 4 digits
-    }
-    return cvv2Value.replace(/\d/g, '*') + '/**'
-  }
-})
+// const cvv2Computed = computed({
+//   set: (value) => {
+//     const sanitizedValue = value.replace(/\D/g, '') // Remove non-numeric characters
+//     cvv2.value = sanitizedValue
+//   },
+//   get: () => {
+//     const cvv2Value = cvv2.value
+//     if (cvv2Value.length > 4) {
+//       return cvv2Value.substring(0, 4) // Limit to 4 digits
+//     }
+//     return cvv2Value.replace(/\d/g, '*') + '/**'
+//   }
+// })
 
-const updateCvv2 = (e) => {
-  card.value = e.target.value
-}
-const formatterHandler = (value: string) => {
-  if (value) {
-    // Assuming the input format is "MMYY" (e.g., "1212")
-    return value.replace(/(\d{2})(\d{2})/, '$1/$2')
-  }
-  return value
-}
+// const updateCvv2 = (e) => {
+//   card.value = e.target.value
+// }
+// const formatterHandler = (value: string) => {
+//   if (value) {
+//     // Assuming the input format is "MMYY" (e.g., "1212")
+//     return value.replace(/(\d{2})(\d{2})/, '$1/$2')
+//   }
+//   return value
+// }
 </script>
 <style lang="less">
 :where(.ant-form-row) {

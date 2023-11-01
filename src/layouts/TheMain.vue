@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="py-4">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 w-300">
             <RouterView />
         </div>
     </section>
