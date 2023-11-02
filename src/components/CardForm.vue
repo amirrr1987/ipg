@@ -15,7 +15,7 @@
       >
         <Input
           class="text-lg text-gray-500 h-11"
-          :class="ltrInputComputed(cardStore.card.panNumber)"
+          :class="cardStore.card.panNumber ? 'input-ltr' : ''"
           type="text"
           inputmode="numeric"
           placeholder="شماره کارت"
@@ -39,7 +39,7 @@
       >
         <Input
           class="text-lg text-gray-500 h-11"
-          :class="ltrInputComputed(cardStore.card.cvv2)"
+          :class="cardStore.card.cvv2 ? 'input-ltr' : ''"
           type="password"
           inputmode="numeric"
           placeholder="CVV2"
@@ -107,7 +107,7 @@
       >
         <Input
           class="text-lg text-gray-500 h-11"
-          :class="ltrInputComputed(cardStore.card.captcha)"
+          :class="cardStore.card.captcha ? 'input-ltr' : ''"
           type="text"
           inputmode="numeric"
           size="large"
@@ -158,7 +158,7 @@
           placeholder="رمز اینترنتی"
           size="large"
           v-model:value="cardStore.card.password"
-          :class="ltrInputComputed(cardStore.card.password)"
+          :class="cardStore.card.password ? 'input-ltr' : ''"
           ref="passwordInput"
         >
           <template #suffix>
@@ -183,7 +183,7 @@
           placeholder="ایمیل یا موبایل"
           size="large"
           v-model:value="cardStore.card.email"
-          :class="ltrInputComputed(cardStore.card.email)"
+          :class="cardStore.card.email ? 'input-ltr' : ''"
           @input="validateInput"
           ref="emailInput"
         />
@@ -200,28 +200,22 @@
   </Card>
 </template>
 <script setup lang="ts">
-import { Card, Form, FormItem, Input, Button, Popover } from 'ant-design-vue/es'
+import { Card, Form, FormItem, Input, Button } from 'ant-design-vue/es'
 import { useCardStore } from '@/stores/cardStore'
 import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
-import BankCard from '@/components/BankCard.vue'
 import Keyboard from '@/components/Keyboard.vue'
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAcceptorStore } from '@/stores/acceptorStore'
 import router from '@/router'
 const cardStore = useCardStore()
 
-// generate random number for captcha 5 digit
 const randomNumber = ref<number>(0)
 const generateRandomNumber = () => {
   randomNumber.value = Math.floor(10000 + Math.random() * 90000)
 }
 onMounted(() => generateRandomNumber())
-// computed to detect if input is not empty add direction ltr
-const ltrInputComputed = (value: string) => {
-  return value ? 'input-ltr' : 'auto'
-}
-// when mask is complete go to next input field tabindex + 1
+
 const checkLength = (value: string, max: number, ref: any) => {
   if (value.length === max) {
     ref.focus()

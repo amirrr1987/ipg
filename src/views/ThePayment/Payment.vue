@@ -11,7 +11,8 @@
       </div>
     </div>
   </div> -->
-  <div class="lg:grid lg:grid-cols-3 lg:gap-4">
+  <div class="grid lg:grid-cols-3 gap-4">
+    <MiniHeader class="col-span-full" />
     <CardForm class="lg:col-span-2" />
     <div class="hidden lg:flex lg:flex-col lg:gap-8">
       <Acceptor />
@@ -24,6 +25,7 @@ import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
 import BankCard from '@/components/BankCard.vue'
 import Acceptor from '@/components/Acceptor.vue'
+import MiniHeader from '@/components/MiniHeader.vue'
 // const card = ref({
 //   panNumber: '',
 //   cvv2: '',
