@@ -2,22 +2,20 @@
   <Popover title="صفحه کلید امن" trigger="click" :open="isActive" @open-change="openChange">
     <template #content>
       <div class="grid grid-cols-3 gap-2">
-        <template v-for="item in random" :key="item">
-          <Button type="default" @click="pushNumber(item)">
-            {{ item }}
-          </Button>
-        </template>
+        <Button v-for="item in random" :key="item" type="default" @click="pushNumber(item)">
+          {{ item }}
+        </Button>
         <Button type="text" @click="clean">
-          <Icon class="text-2xl text-green-600" icon="tabler:eraser" />
+          <Icon class="text-2xl text-primary" icon="tabler:eraser" />
         </Button>
         <Button type="text" @click="backSpace">
-          <Icon class="text-2xl text-green-600" icon="ic:baseline-arrow-back" />
+          <Icon class="text-2xl text-primary" icon="ic:baseline-arrow-back" />
         </Button>
       </div>
     </template>
     <Button type="text">
       <template #icon>
-        <Icon class="text-2xl text-green-600" icon="solar:keyboard-bold" />
+        <Icon class="text-2xl text-primary" icon="solar:keyboard-bold" />
       </template>
     </Button>
   </Popover>
@@ -25,7 +23,7 @@
 <script setup lang="ts">
 import { Button, Popover } from 'ant-design-vue/es'
 import { Icon } from '@iconify/vue'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 // props
 
@@ -40,21 +38,35 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits(['update:keyboard', 'next'])
 
-// virtual keyboard for password width random sort 0-9
-const random = computed(() => {
-  const arr = []
-  for (let i = 0; i < 10; i++) {
-    arr.push(i)
+// virtual keyboard for password with random sort 0-9
+const random = ref<number[]>([])
+
+const generateRandom = () => {
+  const arr = Array.from({ length: 10 }, (_, i) => i)
+  random.value = shuffleArray(arr)
+}
+
+const shuffleArray = (arr: any[]) => {
+  const shuffled = [...arr]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = shuffled[i]
+    shuffled[i] = shuffled[j]
+    shuffled[j] = temp
   }
-  return arr.sort(() => Math.random() - 0.5)
-})
+  return shuffled
+}
+
 const isActive = ref<boolean>(false)
 
-const openChange = (e) => {
-  console.log(e)
+const openChange = (e: boolean) => {
+  if (e) {
+    generateRandom()
+  }
   isActive.value = e
 }
-// push number to  props.keyboard
+
+// push number to props.keyboard
 const pushNumber = (item: number) => {
   if (props.max > props.keyboard.length) {
     emits('update:keyboard', props.keyboard + item)
@@ -73,6 +85,10 @@ const backSpace = () => {
 const clean = () => {
   emits('update:keyboard', '')
 }
+
+onMounted(() => {
+  generateRandom()
+})
 </script>
 
 <style lang="less" scoped>

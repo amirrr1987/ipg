@@ -16,7 +16,7 @@ import TheMain from '@/layouts/TheMain.vue'
 import TheFooter from '@/layouts/TheFooter.vue'
 
 const token = reactive<AliasToken>({
-  colorPrimary: '#2c9f45'
+  colorPrimary: '#14b8a6'
 } as AliasToken)
 </script>
 

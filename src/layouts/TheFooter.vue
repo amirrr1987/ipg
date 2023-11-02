@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-green-700 ">
+  <footer class="bg-primary ">
     <div class="py-12 text-white">
     <div class="container mx-auto px-4 text-center leading-9">
       <!-- <img src="@/assets/images/logo.png" alt="" /> -->

@@ -27,7 +27,13 @@
           @input="checkLength(cardStore.card.panNumber, 19, $refs.cvv2Input)"
         >
           <template #suffix>
-            <img class="h-7 rounded" :src="`../images/logos/${cardStore.bank.img}.png`" alt="" />
+            <img
+              v-if="cardStore.bank.img"
+              class="h-7 rounded w-7"
+              :src="`../images/logos/${cardStore.bank.img}.png`"
+              alt=""
+            />
+            <Icon v-else icon="mingcute:bank-card-line" class="text-2xl h-7 w-7 text-primary" />
           </template>
         </Input>
       </FormItem>
@@ -42,7 +48,7 @@
           :class="cardStore.card.cvv2 ? 'input-ltr' : ''"
           type="password"
           inputmode="numeric"
-          placeholder="CVV2"
+          placeholder="شماره شناسایی دوم"
           size="large"
           v-maska
           data-maska="#####"
@@ -128,7 +134,7 @@
               "
             >
               <template #icon>
-                <Icon class="text-2xl text-green-600" icon="jam:refresh-reverse" />
+                <Icon class="text-2xl text-primary" icon="jam:refresh-reverse" />
               </template>
             </Button>
           </template>
@@ -162,7 +168,11 @@
           ref="passwordInput"
         >
           <template #suffix>
-            <Keyboard v-model:keyboard="cardStore.card.password" />
+            <Keyboard
+              v-model:keyboard="cardStore.card.password"
+              :max="20"
+              @next="checkLength(cardStore.card.password, 20, $refs.emailInput)"
+            />
           </template>
         </Input>
       </FormItem>

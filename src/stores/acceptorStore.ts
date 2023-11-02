@@ -7,19 +7,19 @@ export const useAcceptorStore = defineStore('Acceptor', () => {
   const route = useRoute()
 
   const nameComputed = computed(() => {
-    return route.query.name
+    return route.query.name ?? '-'
   })
   const invoiceComputed = computed(() => {
-    return route.query.invoice
+    return route.query.invoice ?? '-'
   })
   const priceComputed = computed(() => {
-    return Number(route.query.price)
+    return Number(route.query.price ?? 0) 
   })
   const urlComputed = computed(() => {
-    return route.query.url
+    return route.query.url ?? '-'
   })
   const imgComputed = computed(() => {
-    return route.query.img
+    return route.query.img 
   })
 
   return {

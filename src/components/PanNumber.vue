@@ -7,7 +7,7 @@
   >
     <Input
       class="text-lg text-gray-500 h-11"
-      :class="ltrInputComputed(cardStore.card.panNumber)"
+      :class="cardStore.card.panNumber ? 'input-ltr' : ''"
       type="text"
       inputmode="numeric"
       placeholder="شماره کارت"
@@ -19,7 +19,13 @@
       @input="checkLength(cardStore.card.panNumber, 19, $refs.cvv2Input)"
     >
       <template #suffix>
-        <img class="h-7 rounded" :src="`../images/logos/${cardStore.bank.img}.png`" alt="" />
+        <img
+          v-if="cardStore.bank.img"
+          class="h-7 rounded w-7"
+          :src="`../images/logos/${cardStore.bank.img}.png`"
+          alt=""
+        />
+        <Icon v-else icon="mingcute:bank-card-line" class="text-2xl h-7 w-7 text-primary" />
       </template>
     </Input>
   </FormItem>
@@ -31,6 +37,9 @@ import { FormItem, Input } from 'ant-design-vue/es'
 import { useCardStore } from '@/stores/cardStore'
 import { vMaska } from 'maska'
 import { onMounted, ref } from 'vue'
+
+
+
 
 const cardStore = useCardStore()
 

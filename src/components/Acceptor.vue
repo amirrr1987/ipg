@@ -1,7 +1,8 @@
 <template>
   <Card class="shadow">
-    <img class="mb-8 h-40 mx-auto block" :src="acceptorStore.imgComputed" alt="" />
-    <div class="text-xl mb-6 flex justify-between">
+  <img v-if="acceptorStore.imgComputed" class="mb-8 h-40 mx-auto block" :src="acceptorStore.imgComputed" alt="" />
+  <Icon v-else class="mb-8 h-40 mx-auto block text-9xl text-primary" icon="ion:image-outline" />
+  <div class="text-xl mb-6 flex justify-between">
       <div class="">نام پذیرنده :</div>
       <div class="font-medium">{{ acceptorStore.nameComputed }}</div>
     </div>
@@ -26,6 +27,6 @@
 <script setup lang="ts">
 import { useAcceptorStore } from '@/stores/acceptorStore'
 import { Card, Divider } from 'ant-design-vue/es'
-
+import { Icon } from '@iconify/vue'
 const acceptorStore = useAcceptorStore()
 </script>
