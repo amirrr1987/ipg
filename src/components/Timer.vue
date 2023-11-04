@@ -1,13 +1,7 @@
 <template>
-  <Card>
-    <div class="flex justify-between items-center">
-      <img class="h-20" src="../assets/images/logo.png" alt="" />
-      <Tag color="blue" class="w-30 h-10 flex justify-center items-center text-xl">{{ timer }}</Tag>
-    </div>
-  </Card>
+      <span>{{ timer }}</span>
 </template>
 <script setup lang="ts">
-import { Card, Tag } from 'ant-design-vue/es'
 import { ref } from 'vue'
 
 const timer = ref('10:0')

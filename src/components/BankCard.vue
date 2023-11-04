@@ -26,7 +26,7 @@ import { computed } from 'vue'
 const cardStore = useCardStore()
 
 const imgSrc = computed(() => {
-  return `url('../images/cards/${cardStore.bank.img}.svg')`
+  return `url('../images/cards/${cardStore.bank?.img ?? 'melli'}.svg')`
 })
 let lines = [
   '-',

@@ -1,7 +1,7 @@
 import 'virtual:uno.css'
 import 'ant-design-vue/dist/reset.css'
 import '@/assets/styles/main.less'
-
+import './assets/fonts/css/fontiran.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

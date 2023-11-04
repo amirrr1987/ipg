@@ -9,7 +9,7 @@
           <Icon class="text-2xl text-primary" icon="tabler:eraser" />
         </Button>
         <Button type="text" @click="backSpace">
-          <Icon class="text-2xl text-primary" icon="ic:baseline-arrow-back" />
+          <Icon class="text-2xl text-primary" icon="icon-park-outline:delete-two" />
         </Button>
       </div>
     </template>

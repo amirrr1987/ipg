@@ -1,72 +1,101 @@
 <template>
-  <!-- <div class="h-screen">
-    <div class="bg-green-600 h-20">header</div>
-    <div class="container mx-auto px-4">
-      <div class="grid lg:grid-cols-[1fr_max-content] gap-8 p-8">
-        <CardForm />
-        <div class="p-8 flex flex-col gap-8">
-          <BankCard />
-          <Acceptor />
-        </div>
-      </div>
+  <div class="grid lg:grid-cols-4 gap-y-8 gap-x-4">
+    <div class="lg:col-start-1 lg:col-end-2">
+      <Acceptor class="shadow " />
+
     </div>
-  </div> -->
-  <div class="grid lg:grid-cols-3 gap-4">
-    <MiniHeader class="col-span-full" />
-    <CardForm class="lg:col-span-2" />
-    <div class="hidden lg:flex lg:flex-col lg:gap-8">
-      <Acceptor />
-      <BankCard />
+    <div class="lg:col-start-2 lg:col-end-4">
+      <CardForm class="shadow " />
     </div>
+
+    <div class="lg:col-start-4 lg:col-end-5 flex flex-col gap-y-8">
+      <BankCard class="hidden shadow lg:block" />
+       <Collapse
+      v-model:activeKey="activeKey"
+      expandIconPosition="end"
+      class="shadow bg-white lg:col-start-2 lg:col-span-2"
+      accordion
+    >
+      <CollapsePanel key="1">
+        <template #header>
+          <div class="flex items-center gap-x-2">
+            <Icon icon="mdi:password-outline" class="text-primary text-xl" />
+            <span class="text-primary">راهنمای استفاده از رمز پویا</span>
+          </div>
+        </template>
+        <ul>
+          <li class="leading-8">
+            رمزپویا، رمز یک بار مصرفی است که به جای رمز دوم کارت استفاده میشود
+          </li>
+          <li class="leading-8">
+            براساس دستورالعمل بانک صادرکننده کارت خود، نسبت به فعال سازی رمز پویا اقدام نمایید
+          </li>
+          <li class="leading-8">
+            رمز پویا را براساس روش اعلامی از طرف بانک صادر کننده کارت، به یکی از روش های زیر دریافت
+            کنید
+          </li>
+        </ul>
+        <Divider />
+        <ol>
+          <li class="leading-8">
+            دریافت از طریق برنامه کاربردی بانک، اینترنت بانک و یا موبایل بانک
+          </li>
+          <li class="leading-8">دریافت از طریق کد USSD بانک صادرکننده کارت شما</li>
+          <li class="leading-8">دریافت از طریق زدن دکمه "رمزپویا" در درگاه پرداخت اینترنتی</li>
+        </ol>
+        <Divider />
+        <p class="leading-7">
+          پس از دریافت رمز به یکی از روش های فوق، رمز پویای دریافت شده را در محل تعیین شده برای "رمز
+          اینترنتی" وارد نمایید و سپس مابقی اطلاعات را تکمیل نمایید
+        </p>
+      </CollapsePanel>
+      <CollapsePanel key="2">
+        <template #header>
+          <div class="flex items-center gap-x-2">
+            <Icon icon="tabler:wallet" class="text-primary text-xl" />
+            <span class="text-primary">راهنمای پرداخت</span>
+          </div>
+        </template>
+
+        <ul>
+          <li class="leading-8">
+            مشتری گرامی شما با پروتکل امن (ssl) به درگاه پرداخت بانک کشاورزی که با آدرس
+            https://www.bki.ir شروع می شود متصل شده اید
+          </li>
+          <li class="leading-8">
+            خواهشمند است جهت جلوگیری از سوء استفاده های اینترنتی، آدرس مرورگر وب خود را با آدرس
+            مذکور مقایسه نمایید
+          </li>
+          <li class="leading-8">
+            لطفاً از صحت نام فروشنده و مبلغ نمایش داده شده، اطمینان حاصل فرمایید. برای جلوگیری از
+            افشای رمز کارت خود حتی المقدور از صفحه کلید مجازی استفاده فرمایید
+          </li>
+        </ul>
+      </CollapsePanel>
+    </Collapse>
+    </div>
+
+
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import CardForm from '@/components/CardForm.vue'
 import BankCard from '@/components/BankCard.vue'
 import Acceptor from '@/components/Acceptor.vue'
-import MiniHeader from '@/components/MiniHeader.vue'
-// const card = ref({
-//   panNumber: '',
-//   cvv2: '',
-//   month: '',
-//   year: '',
-//   captcha: ''
-// })
+import { Card, Collapse, CollapsePanel, Divider, Table } from 'ant-design-vue/es'
+import { reactive, ref } from 'vue'
+import { Icon } from '@iconify/vue'
 
-// const cvv2 = ref('3243')
-
-// const cvv2Computed = computed({
-//   set: (value) => {
-//     const sanitizedValue = value.replace(/\D/g, '') // Remove non-numeric characters
-//     cvv2.value = sanitizedValue
-//   },
-//   get: () => {
-//     const cvv2Value = cvv2.value
-//     if (cvv2Value.length > 4) {
-//       return cvv2Value.substring(0, 4) // Limit to 4 digits
-//     }
-//     return cvv2Value.replace(/\d/g, '*') + '/**'
-//   }
-// })
-
-// const updateCvv2 = (e) => {
-//   card.value = e.target.value
-// }
-// const formatterHandler = (value: string) => {
-//   if (value) {
-//     // Assuming the input format is "MMYY" (e.g., "1212")
-//     return value.replace(/(\d{2})(\d{2})/, '$1/$2')
-//   }
-//   return value
-// }
+const activeKey = ref(['2'])
 </script>
 <style lang="less">
-:where(.ant-form-row) {
-  // @apply !grid gap-4;
-  // grid-template-columns: 100px 1fr;
-  // :where(.ant-form-item-label) {
-  //   @apply !text-right;
-  // }
+:where(.css-dev-only-do-not-override-1t7lv8i).ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-arrow
+  svg {
+  transition: transform 0.3s;
+  transform: rotate(175deg);
+  @apply text-primary;
 }
 </style>

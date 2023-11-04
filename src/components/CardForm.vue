@@ -1,6 +1,14 @@
 <template>
-  <Card>
-    <Form layout="vertical" @submit="submitForm" ref="formRef" :model="cardStore.card">
+  <Card class="shadow relative rounded-t-xl">
+
+    <Tag
+      class="bg-gray-400 text-white px-10 py-1 w-full -mx-10 rounded-t-xl text-center text-base font-medium my-tag-card"
+    >
+      اطلاعات کارت
+      <Timer class="absolute left-4" />
+    </Tag>
+
+    <Form class="mt-8" layout="vertical" @submit="submitForm" ref="formRef" :model="cardStore.card">
       <FormItem
         label="شماره کارت"
         name="panNumber"
@@ -181,7 +189,7 @@
           type="primary"
           size="large"
           block
-          class="mt-8"
+          class="mt-8 !h-11"
           @click="openNotification"
           :disabled="disabled"
         >
@@ -249,15 +257,6 @@
         <Button type="primary" ghost size="large" block @click="cancelHandler">انصراف</Button>
         <Button type="primary" size="large" block @click="callSubmit">پرداخت</Button>
       </div>
-      <Modal
-        v-model:open="modalOpen"
-        title="رمز پویا"
-        @ok="modalHandleOk"
-        ok-text="تایید"
-        cancel-text="انصراف"
-      >
-        <div class="text-xl">{{ password }}</div>
-      </Modal>
     </Form>
   </Card>
 </template>
@@ -270,23 +269,43 @@ import {
   Button,
   Checkbox,
   notification,
-  Modal
+  Modal,
+  Tag
 } from 'ant-design-vue/es'
 import { useCardStore } from '@/stores/cardStore'
 import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
 import Keyboard from '@/components/Keyboard.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, h } from 'vue'
 import { useAcceptorStore } from '@/stores/acceptorStore'
 import router from '@/router'
 import { emailRegExp, mobileRegExp, monthRegExp } from '@/utils/regex'
 import { validateCreditCardNumber } from '../utils'
-import dayjs from 'dayjs';
+import { useClipboard } from '@vueuse/core'
+import dayjs from 'dayjs'
+import Timer from '@/components/Timer.vue'
+const password = ref('')
+
+const { copy } = useClipboard({ password })
 
 // dayjs.calendar('jalali')
-
+const info = () => {
+  Modal.success({
+    title: 'رمز پویا',
+    content: h('div', { class: 'text-center text-xl' }, [h('p', password.value)]),
+    okButtonProps: {
+      block: true
+    },
+    okText() {
+      return 'کپی کردن'
+    },
+    onOk() {
+      copy(password.value)
+      disabled.value = false
+    }
+  })
+}
 const disabled = ref<boolean>(false)
-const modalOpen = ref<boolean>(false)
 const openNotification = () => {
   disabled.value = true
   generatePassword()
@@ -295,13 +314,7 @@ const openNotification = () => {
     description: 'رمز پویا تا دقایقی دیگر به شماره همراه شما ارسال میشود',
     placement: 'topRight'
   })
-  setTimeout(() => {
-    modalOpen.value = true
-  }, 3000)
-}
-const modalHandleOk = () => {
-  modalOpen.value = false
-  disabled.value = false
+  setTimeout(() => info(), 3000)
 }
 
 const cardStore = useCardStore()
@@ -355,8 +368,6 @@ const validateYear = (rule, value, callback) => {
   }
 }
 
-const password = ref('')
-
 const generatePassword = () => {
   password.value = Math.random().toString(36).slice(-8)
 }
@@ -391,5 +402,9 @@ input.input-ltr {
   input {
     direction: ltr;
   }
+}
+.my-tag-card {
+  position: absolute;
+  transform: translate(-16px, -23px);
 }
 </style>

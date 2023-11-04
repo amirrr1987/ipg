@@ -6,27 +6,28 @@ import { useRoute } from 'vue-router'
 export const useAcceptorStore = defineStore('Acceptor', () => {
   const route = useRoute()
 
-  const nameComputed = computed(() => {
+  const acceptorName = computed(() => {
     return route.query.name ?? '-'
   })
-  const invoiceComputed = computed(() => {
-    return route.query.invoice ?? '-'
+  const acceptorId = computed(() => {
+    return route.query.id ?? '-'
   })
-  const priceComputed = computed(() => {
+  const acceptorTerminal = computed(() => {
+    return route.query.terminal ?? '-'
+  })
+  const acceptorPrice = computed(() => {
     return Number(route.query.price ?? 0) 
   })
-  const urlComputed = computed(() => {
+  const acceptorUrl = computed(() => {
     return route.query.url ?? '-'
   })
-  const imgComputed = computed(() => {
-    return route.query.img 
-  })
+ 
 
   return {
-    nameComputed,
-    invoiceComputed,
-    priceComputed,
-    urlComputed,
-    imgComputed
+    acceptorName,
+    acceptorId,
+    acceptorTerminal,
+    acceptorPrice,
+    acceptorUrl
   }
 })
