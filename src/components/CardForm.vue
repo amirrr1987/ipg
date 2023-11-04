@@ -177,7 +177,14 @@
             </template>
           </Input>
         </FormItem>
-        <Button type="primary" size="large" block class="mt-8" @click="generatePassword">
+        <Button
+          type="primary"
+          size="large"
+          block
+          class="mt-8"
+          @click="openNotification"
+          :disabled="disabled"
+        >
           درخواست رمز پویا
         </Button>
       </div>
@@ -242,11 +249,29 @@
         <Button type="primary" ghost size="large" block @click="cancelHandler">انصراف</Button>
         <Button type="primary" size="large" block @click="callSubmit">پرداخت</Button>
       </div>
+      <Modal
+        v-model:open="modalOpen"
+        title="رمز پویا"
+        @ok="modalHandleOk"
+        ok-text="تایید"
+        cancel-text="انصراف"
+      >
+        <div class="text-xl">{{ password }}</div>
+      </Modal>
     </Form>
   </Card>
 </template>
 <script setup lang="ts">
-import { Card, Form, FormItem, Input, Button, Checkbox } from 'ant-design-vue/es'
+import {
+  Card,
+  Form,
+  FormItem,
+  Input,
+  Button,
+  Checkbox,
+  notification,
+  Modal
+} from 'ant-design-vue/es'
 import { useCardStore } from '@/stores/cardStore'
 import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
@@ -256,6 +281,29 @@ import { useAcceptorStore } from '@/stores/acceptorStore'
 import router from '@/router'
 import { emailRegExp, mobileRegExp, monthRegExp } from '@/utils/regex'
 import { validateCreditCardNumber } from '../utils'
+import dayjs from 'dayjs';
+
+// dayjs.calendar('jalali')
+
+const disabled = ref<boolean>(false)
+const modalOpen = ref<boolean>(false)
+const openNotification = () => {
+  disabled.value = true
+  generatePassword()
+  notification.info({
+    message: `درخواست درمز پویا`,
+    description: 'رمز پویا تا دقایقی دیگر به شماره همراه شما ارسال میشود',
+    placement: 'topRight'
+  })
+  setTimeout(() => {
+    modalOpen.value = true
+  }, 3000)
+}
+const modalHandleOk = () => {
+  modalOpen.value = false
+  disabled.value = false
+}
+
 const cardStore = useCardStore()
 
 const randomNumber = ref<number>(0)
@@ -289,20 +337,26 @@ const validatePanNumber = (rule, value, callback) => {
   }
 }
 const validateYear = (rule, value, callback) => {
-  if (value.length === 2) {
-    if (Number(value) >= 0 && Number(value) <= 99) {
-      callback()
+  const currentYear = dayjs()
+  console.log('🚀 ~ file: CardForm.vue:338 ~ validateYear ~ currentYear:', currentYear)
+  const minYear = currentYear - 4
+  const maxYear = currentYear + 4
+
+  // چک کردن اعتبار سال
+  if (/^\d{2}$/.test(value)) {
+    const inputYear = parseInt(value)
+    if (inputYear >= minYear && inputYear <= maxYear) {
+      callback() // سال معتبر است
     } else {
-      callback(new Error('سال به درستی وارد شود'))
+      callback('سال باید بین 4 سال قبل از سال جاری و 4 سال بعد از آن باشد')
     }
   } else {
-    callback(new Error('سال به درستی وارد شود'))
+    callback('سال باید به صورت دو رقمی مثل 1403 باشد')
   }
 }
 
 const password = ref('')
 
-// generate random password bettwen 8 to 16 digit
 const generatePassword = () => {
   password.value = Math.random().toString(36).slice(-8)
 }

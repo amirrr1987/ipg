@@ -20,6 +20,7 @@
     "@unocss/reset": "^0.57.1",
     "@zoomit/dayjs-jalali-plugin": "^0.0.7",
     "ant-design-vue": "4.x",
+    "dayjs": "^1.11.10",
     "dayjs-jalali": "^0.0.2",
     "jalali-dayjs": "^0.0.1",
     "lodash": "^4.17.21",
