@@ -91,7 +91,7 @@
         <FormItem
           class="mt-8"
           name="year"
-          :rules="[{ required: true, message: '', pattern: yearRegExp }]"
+          :rules="[{ required: true, message: 'سال به درستی وارد شود', validator: validateYear }]"
         >
           <Input
             class="ltr text-lg text-gray-500 text-center h-11"
@@ -186,7 +186,7 @@
         <Checkbox v-model:checked="checked">آیا مایل به دریافت رسید هستید؟</Checkbox>
       </FormItem>
 
-      <div class="grid grid-cols-2 gap-x-4">
+      <div class="grid lg:grid-cols-2 gap-x-4">
         <FormItem
           label="ایمیل (اختیاری)"
           class=""
@@ -288,47 +288,17 @@ const validatePanNumber = (rule, value, callback) => {
     callback(new Error('شماره کارت معتبر نیست'))
   }
 }
-const validateInput = () => {
-  const inputValue = cardStore.card.email
-
-  // Check if the input is a valid email
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputValue)) {
-    // It's a valid email
-    // Handle email input
-  }
-  // Check if the input is a valid mobile number
-  else if (/^[0-9]{10}$/.test(inputValue)) {
-    // It's a valid mobile number
-    // Handle mobile input
-  } else {
-    // Neither a valid email nor a valid mobile number
-    // Handle the input accordingly
-  }
-}
-const validateEmailOrMobile = (_rule: any, value: string) => {
-  if (value) {
-    // Check if the input is a valid email
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-      // It's a valid email
-      // Handle email input
-    }
-    // Check if the input is a valid mobile number
-    else if (/^[0-9]{10}$/.test(value)) {
-      // It's a valid mobile number
-      // Handle mobile input
+const validateYear = (rule, value, callback) => {
+  if (value.length === 2) {
+    if (Number(value) >= 0 && Number(value) <= 99) {
+      callback()
     } else {
-      // Neither a valid email nor a valid mobile number
-      // Handle the input accordingly
+      callback(new Error('سال به درستی وارد شود'))
     }
+  } else {
+    callback(new Error('سال به درستی وارد شود'))
   }
 }
-const emailOrMobile = [
-  {
-    required: false,
-    message: 'لطفا یک ایمیل یا شماره موبایل معتبر وارد کنید',
-    validator: validateEmailOrMobile
-  }
-]
 
 const password = ref('')
 
