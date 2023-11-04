@@ -1,20 +1,22 @@
 <template>
   <Card>
-    <Form
-      class="grid grid-cols-2 gap-x-4 gap-y-6"
-      layout="vertical"
-      @submit="submitForm"
-      ref="formRef"
-      :model="cardStore.card"
-    >
+    <Form layout="vertical" @submit="submitForm" ref="formRef" :model="cardStore.card">
       <FormItem
-        class="mb-0 col-span-full"
         label="شماره کارت"
         name="panNumber"
-        :rules="[{ required: true, message: '' }]"
+        :rules="[
+          {
+            required: true,
+            message: ''
+          },
+          {
+            validator: validatePanNumber,
+            trigger: 'blur',
+            message: 'شماره کارت معتبر نیست'
+          }
+        ]"
       >
         <Input
-          class="text-lg text-gray-500 h-11"
           :class="cardStore.card.panNumber ? 'input-ltr' : ''"
           type="text"
           inputmode="numeric"
@@ -37,14 +39,13 @@
           </template>
         </Input>
       </FormItem>
+
       <FormItem
-        class="mb-0 col-span-full"
         label="CVV2"
         name="cvv2"
-        :rules="[{ required: true, message: '' }]"
+        :rules="[{ required: true, message: 'این فیلد اجباری است' }]"
       >
         <Input
-          class="text-lg text-gray-500 h-11"
           :class="cardStore.card.cvv2 ? 'input-ltr' : ''"
           type="password"
           inputmode="numeric"
@@ -65,152 +66,187 @@
           </template>
         </Input>
       </FormItem>
-      <FormItem
-        label="تاریخ انقضا"
-        class="mb-0 col-span-full"
-        :rules="[{ required: true, message: 'asd' }]"
-      >
-        <div class="grid grid-cols-[1fr_max-content_1fr] items-center gap-4">
-          <FormItem class="mb-0" name="month" :rules="[{ required: true, message: '' }]">
-            <Input
-              class="ltr text-lg text-gray-500 text-center h-11"
-              type="text"
-              inputmode="numeric"
-              placeholder="ماه"
-              size="large"
-              v-maska
-              data-maska="##"
-              v-model:value="cardStore.card.month"
-              ref="MonthInput"
-              @input="checkLength(cardStore.card.month, 2, $refs.yearInput)"
-            />
-          </FormItem>
-          <FormItem class="mb-0">
-            <span class="text-xl">/</span>
-          </FormItem>
-          <FormItem class="mb-0" name="year" :rules="[{ required: true, message: '' }]">
-            <Input
-              class="ltr text-lg text-gray-500 text-center h-11"
-              type="text"
-              inputmode="numeric"
-              placeholder="سال"
-              size="large"
-              v-maska
-              data-maska="##"
-              v-model:value="cardStore.card.year"
-              ref="yearInput"
-              @input="checkLength(cardStore.card.year, 2, $refs.captchaInput)"
-            />
-          </FormItem>
-        </div>
-      </FormItem>
 
-      <FormItem
-        label="کد امنیتی"
-        class="mb-0 col-span-1"
-        name="captcha"
-        :rules="[{ required: true, message: '' }]"
-      >
-        <Input
-          class="text-lg text-gray-500 h-11"
-          :class="cardStore.card.captcha ? 'input-ltr' : ''"
-          type="text"
-          inputmode="numeric"
-          size="large"
-          placeholder="کد امنیتی"
-          v-maska
-          data-maska="#####"
-          v-model:value="cardStore.card.captcha"
-          ref="captchaInput"
-          @input="checkLength(cardStore.card.captcha, 5, $refs.passwordInput)"
+      <div class="grid grid-cols-2 gap-x-4">
+        <FormItem
+          label="تاریخ انقضا"
+          class=""
+          name="month"
+          :rules="[{ required: true, message: 'ماه به درستی وارد شود', pattern: monthRegExp }]"
         >
-          <template #suffix>
-            <Button
-              type="link"
-              @click="
-                () => (
-                  (cardStore.card.captcha = ''), generateRandomNumber(), $refs.captchaInput.focus()
-                )
-              "
-            >
-              <template #icon>
-                <Icon class="text-2xl text-primary" icon="jam:refresh-reverse" />
-              </template>
-            </Button>
-          </template>
-        </Input>
-      </FormItem>
-      <FormItem class="mb-0">
-        <template #label>
-          <span class="opacity-0">d</span>
-        </template>
+          <Input
+            class="ltr text-lg text-gray-500 text-center h-11"
+            type="text"
+            inputmode="numeric"
+            placeholder="ماه"
+            size="large"
+            v-maska
+            data-maska="##"
+            v-model:value="cardStore.card.month"
+            ref="MonthInput"
+            @input="checkLength(cardStore.card.month, 2, $refs.yearInput)"
+          />
+        </FormItem>
+
+        <FormItem
+          class="mt-8"
+          name="year"
+          :rules="[{ required: true, message: '', pattern: yearRegExp }]"
+        >
+          <Input
+            class="ltr text-lg text-gray-500 text-center h-11"
+            type="text"
+            inputmode="numeric"
+            placeholder="سال"
+            size="large"
+            v-maska
+            data-maska="##"
+            v-model:value="cardStore.card.year"
+            ref="yearInput"
+            @input="checkLength(cardStore.card.year, 2, $refs.captchaInput)"
+          />
+        </FormItem>
+      </div>
+
+      <div class="grid grid-cols-2 gap-x-4">
+        <FormItem
+          label="کد امنیتی"
+          class=""
+          name="captcha"
+          :rules="[{ required: true, message: '', validator: validateCaptcha }]"
+        >
+          <Input
+            :class="cardStore.card.captcha ? 'input-ltr' : ''"
+            type="text"
+            inputmode="numeric"
+            size="large"
+            placeholder="کد امنیتی"
+            v-maska
+            data-maska="#####"
+            v-model:value="cardStore.card.captcha"
+            ref="captchaInput"
+            @input="checkLength(cardStore.card.captcha, 5, $refs.passwordInput)"
+          >
+            <template #suffix>
+              <Button
+                type="link"
+                @click="
+                  () => (
+                    (cardStore.card.captcha = ''),
+                    generateRandomNumber(),
+                    $refs.captchaInput.focus()
+                  )
+                "
+              >
+                <template #icon>
+                  <Icon class="text-2xl text-primary" icon="jam:refresh-reverse" />
+                </template>
+              </Button>
+            </template>
+          </Input>
+        </FormItem>
         <div
-          class="border border-solid rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50 h-11"
+          class="border border-solid rounded-lg border-gray-300 text-center leading-11 text-xl text-gray bg-yellow-50 mt-8 h-12"
         >
           {{ randomNumber }}
         </div>
-      </FormItem>
+      </div>
 
-      <FormItem
-        label="رمز اینترنتی"
-        class="mb-0"
-        name="password"
-        :rules="[{ required: true, message: '' }]"
-      >
-        <Input
-          class="text-lg text-gray-500 h-11"
-          type="password"
-          inputmode="numeric"
-          placeholder="رمز اینترنتی"
-          size="large"
-          v-model:value="cardStore.card.password"
-          :class="cardStore.card.password ? 'input-ltr' : ''"
-          ref="passwordInput"
+      <div class="grid grid-cols-2 gap-x-4">
+        <FormItem
+          label="رمز اینترنتی"
+          class=""
+          name="password"
+          :rules="[{ required: true, message: '' }]"
         >
-          <template #suffix>
-            <Keyboard
-              v-model:keyboard="cardStore.card.password"
-              :max="20"
-              @next="checkLength(cardStore.card.password, 20, $refs.emailInput)"
-            />
-          </template>
-        </Input>
-      </FormItem>
-      <FormItem class="mb-0">
-        <template #label>
-          <span class="opacity-0">.</span>
-        </template>
-        <Button type="primary" size="large" block class="!h-11" @click="generatePassword">
+          <Input
+            type="password"
+            inputmode="numeric"
+            placeholder="رمز اینترنتی"
+            size="large"
+            v-model:value="cardStore.card.password"
+            :class="cardStore.card.password ? 'input-ltr' : ''"
+            ref="passwordInput"
+          >
+            <template #suffix>
+              <Keyboard
+                v-model:keyboard="cardStore.card.password"
+                :max="20"
+                @next="checkLength(cardStore.card.password, 20, $refs.emailInput)"
+              />
+            </template>
+          </Input>
+        </FormItem>
+        <Button type="primary" size="large" block class="mt-8" @click="generatePassword">
           درخواست رمز پویا
         </Button>
+      </div>
+
+      <FormItem label="" class="col-span-2" :rules="[{ required: false, message: '' }]">
+        <Checkbox v-model:checked="checked">آیا مایل به دریافت رسید هستید؟</Checkbox>
       </FormItem>
 
-      <FormItem label="ایمیل یا موبایل (اختیاری)" class="mb-0 col-span-full" :rules="emailOrMobile">
-        <Input
-          class="text-lg text-gray-500 h-11"
-          type="text"
-          inputmode="text"
-          placeholder="ایمیل یا موبایل"
-          size="large"
-          v-model:value="cardStore.card.email"
-          :class="cardStore.card.email ? 'input-ltr' : ''"
-          @input="validateInput"
-          ref="emailInput"
-        />
-      </FormItem>
-      <FormItem class="mb-0 mt-6">
-        <Button type="primary" ghost size="large" block class="!h-11" @click="cancelHandler"
-          >انصراف</Button
+      <div class="grid grid-cols-2 gap-x-4">
+        <FormItem
+          label="ایمیل (اختیاری)"
+          class=""
+          name="email"
+          :rules="[
+            {
+              required: Boolean(cardStore.card.email),
+              message: 'ایمیل به طور صحیح وارد شود',
+              pattern: emailRegExp
+            }
+          ]"
+          v-if="checked"
         >
-      </FormItem>
-      <FormItem class="mb-0 mt-6">
-        <Button type="primary" size="large" block class="!h-11" @click="callSubmit">پرداخت</Button>
-      </FormItem>
+          <Input
+            class="text-lg text-gray-500 h-11 ltr"
+            type="email"
+            inputmode="email"
+            placeholder="example@example.com"
+            size="large"
+            v-model:value="cardStore.card.email"
+            ref="mobileInput"
+          />
+        </FormItem>
+
+        <FormItem
+          label="موبایل (اختیاری)"
+          class=""
+          name="mobile"
+          :rules="[
+            {
+              required: Boolean(cardStore.card.mobile),
+              message: 'شماره همراه به طور صحیح وارد شود',
+              pattern: mobileRegExp
+            }
+          ]"
+          v-if="checked"
+        >
+          <Input
+            class="text-lg text-gray-500 h-11 ltr"
+            type="tel"
+            inputmode="tel"
+            placeholder="09128888888"
+            size="large"
+            v-model:value="cardStore.card.mobile"
+            ref="mobileInput"
+            v-maska
+            data-maska="###########"
+          />
+        </FormItem>
+      </div>
+
+      <div class="grid grid-cols-2 gap-x-4 mt-12">
+        <Button type="primary" ghost size="large" block @click="cancelHandler">انصراف</Button>
+        <Button type="primary" size="large" block @click="callSubmit">پرداخت</Button>
+      </div>
     </Form>
   </Card>
 </template>
 <script setup lang="ts">
-import { Card, Form, FormItem, Input, Button } from 'ant-design-vue/es'
+import { Card, Form, FormItem, Input, Button, Checkbox } from 'ant-design-vue/es'
 import { useCardStore } from '@/stores/cardStore'
 import { vMaska } from 'maska'
 import { Icon } from '@iconify/vue'
@@ -218,6 +254,8 @@ import Keyboard from '@/components/Keyboard.vue'
 import { onMounted, ref } from 'vue'
 import { useAcceptorStore } from '@/stores/acceptorStore'
 import router from '@/router'
+import { emailRegExp, mobileRegExp, monthRegExp } from '@/utils/regex'
+import { validateCreditCardNumber } from '../utils'
 const cardStore = useCardStore()
 
 const randomNumber = ref<number>(0)
@@ -226,12 +264,30 @@ const generateRandomNumber = () => {
 }
 onMounted(() => generateRandomNumber())
 
+const checked = ref<boolean>(false)
+
+const validateCaptcha = (rule: any, value: any, callback: any) => {
+  if (Number(value) === Number(randomNumber.value)) {
+    callback()
+    return true
+  } else {
+    callback(new Error())
+    return false
+  }
+}
 const checkLength = (value: string, max: number, ref: any) => {
   if (value.length === max) {
     ref.focus()
   }
 }
 
+const validatePanNumber = (rule, value, callback) => {
+  if (validateCreditCardNumber(value)) {
+    callback()
+  } else {
+    callback(new Error('شماره کارت معتبر نیست'))
+  }
+}
 const validateInput = () => {
   const inputValue = cardStore.card.email
 
@@ -291,7 +347,7 @@ const submitForm = () => {
       }
       window.location.href = `${acceptorStore.urlComputed}`
     })
-    .catch((error) => {
+    .catch((error: any) => {
       console.log('error', error)
     })
 }

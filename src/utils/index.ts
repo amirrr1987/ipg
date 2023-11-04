@@ -157,39 +157,61 @@ const bankLookup = [
   }
 ]
 
-export function validatePanCard(panNumber: string) {
-  // First, remove non-numeric characters from the PAN card number.
-  const sanitizedPan = panNumber.replace(/[^\d]/g, '')
-  const first6Digits = sanitizedPan.slice(0, 6)
+// export function validatePanCard(panNumber: string) {
+//   // First, remove non-numeric characters from the PAN card number.
+//   const sanitizedPan = panNumber.replace(/[^\d]/g, '')
+//   const first6Digits = sanitizedPan.slice(0, 6)
 
-  const bankIndex = bankLookup.findIndex((bank) => bank.id === first6Digits)
+//   const bankIndex = bankLookup.findIndex((bank) => bank.id === first6Digits)
 
-  if (bankIndex > -1) {
-    return bankLookup[bankIndex]
-  } else {
-    // Check if the PAN card number has the correct length (it should be 16 digits).
-    if (sanitizedPan.length !== 16) {
-      return 'شماره کارت نامعتبر'
+//   if (bankIndex > -1) {
+//     return bankLookup[bankIndex]
+//   } else {
+//     // Check if the PAN card number has the correct length (it should be 16 digits).
+//     if (sanitizedPan.length !== 16) {
+//       return 'شماره کارت نامعتبر'
+//     }
+
+//     // Calculate the control digit.
+//     const panArray = sanitizedPan.split('').map(Number)
+//     let sum = 0
+//     for (let i = 0; i < 16; i++) {
+//       let digit = panArray[i]
+//       if (i % 2 === 0) {
+//         digit *= 2
+//         if (digit > 9) {
+//           digit -= 9
+//         }
+//       }
+//       sum += digit
+//     }
+
+//     // Check the control digit.
+//     if (sum % 10 !== 0) {
+//       return false
+//     }
+//     return true
+//   }
+// }
+// export const panNumberReg = /^(4|5|6)\d{15}$|^(?:\d{2}([0-9]{1})\d{14}(?(1)(?(?=\d)\1([0-9]{2}))))$/
+
+export const validateCreditCardNumber = (cardNumber: string) => {
+  if (/[^0-9-\s]+/.test(cardNumber)) return false
+
+  let nCheck = 0
+  let nDigit = 0
+  let bEven = false
+  cardNumber = cardNumber.replace(/\D/g, '')
+
+  for (let n = cardNumber.length - 1; n >= 0; n--) {
+    const cDigit = cardNumber.charAt(n)
+    nDigit = parseInt(cDigit, 10)
+    if (bEven) {
+      if ((nDigit *= 2) > 9) nDigit -= 9
     }
-
-    // Calculate the control digit.
-    const panArray = sanitizedPan.split('').map(Number)
-    let sum = 0
-    for (let i = 0; i < 16; i++) {
-      let digit = panArray[i]
-      if (i % 2 === 0) {
-        digit *= 2
-        if (digit > 9) {
-          digit -= 9
-        }
-      }
-      sum += digit
-    }
-
-    // Check the control digit.
-    if (sum % 10 !== 0) {
-      return 'شماره کارت نامعتبر'
-    }
-    return 'شماره کارت معتبر (بدون تعیین بانک)'
+    nCheck += nDigit
+    bEven = !bEven
   }
+
+  return nCheck % 10 === 0
 }
