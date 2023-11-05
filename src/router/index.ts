@@ -7,7 +7,17 @@ const router = createRouter({
       path: '/',
       name: 'ThePayment',
       component: () => import('@/views/ThePayment')
-    }
+    },
+    // {
+    //   path: '/success',
+    //   name: 'ThePayment',
+    //   component: () => import('@/views/TheSuccess')
+    // },
+    // {
+    //   path: '/error',
+    //   name: 'ThePayment',
+    //   component: () => import('@/views/TheError')
+    // }
   ]
 })
 
