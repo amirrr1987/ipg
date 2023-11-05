@@ -5,7 +5,7 @@
 import { ref, createVNode } from 'vue'
 import { Modal } from 'ant-design-vue/es'
 
-const timer = ref('01:01')
+const timer = ref('10:00')
 const limitTime = ref(60)
 const tempTime = ref('03:00')
 const time = () => {
