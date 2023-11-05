@@ -74,8 +74,8 @@ const formattedCardNumber = (valueInput: string) => {
       lines[i] = '-'
     }
   }
-
   return lines.join('')
+
 }
 </script>
 <style lang="less">

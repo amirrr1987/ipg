@@ -134,8 +134,7 @@
             {
               required: true,
               message: 'سال به درستی وارد شود',
-              trigger: 'blur',
-              validator: validateYear
+              pattern: yearRegExp
             }
           ]"
         >
@@ -375,7 +374,7 @@ import Keyboard from '@/components/Keyboard.vue'
 import { onMounted, ref, h } from 'vue'
 import { useAcceptorStore } from '@/stores/acceptorStore'
 import router from '@/router'
-import { emailRegExp, mobileRegExp, monthRegExp } from '@/utils/regex'
+import { emailRegExp, mobileRegExp, monthRegExp, yearRegExp } from '@/utils/regex'
 import { validateCreditCardNumber } from '../utils'
 import { useClipboard } from '@vueuse/core'
 import * as dayjs from 'dayjs'
