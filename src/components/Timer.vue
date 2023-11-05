@@ -5,7 +5,7 @@
 import { ref, createVNode } from 'vue'
 import { Modal } from 'ant-design-vue/es'
 
-const timer = ref('10:00')
+const timer = ref('01:01')
 const limitTime = ref(60)
 const tempTime = ref('03:00')
 const time = () => {
@@ -33,6 +33,10 @@ const time = () => {
       title: 'زمان',
       content: 'آیا به زمان بیشتری احتیاج دارید؟',
       okText: 'بله',
+      centered: true,
+      okButtonProps: {
+        block: true
+      },
       onOk() {
         timer.value = tempTime.value
       }
