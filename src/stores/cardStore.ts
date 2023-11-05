@@ -13,7 +13,7 @@ export interface ICard {
 }
 export const useCardStore = defineStore('Card', () => {
   const card = ref<ICard>({} as ICard)
-  const bank = computed(() => {
+  const bank: ComputedRef = computed(() => {
     return card.value.panNumber ? findPanCard(card.value.panNumber) : ''
   })
 

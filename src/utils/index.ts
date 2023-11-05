@@ -1,4 +1,9 @@
 const bankLookup = [
+  // {
+  //   id: '',
+  //   label: 'بانک',
+  //   img: 'base'
+  // },
   {
     id: '603799',
     label: 'بانک ملی ایران',
@@ -165,7 +170,7 @@ export function findPanCard(panNumber: string) {
   if (bankIndex > -1) {
     return bankLookup[bankIndex]
   } else {
-    return bankLookup[0]
+    return false
   }
 }
 

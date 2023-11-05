@@ -1,5 +1,5 @@
 <template>
-  <Card class="bg grid">
+  <Card class="bg grid" :loading="loading">
     <div class="h-full grid grid-rows-3 w-full">
       <div class=""></div>
       <div class="mt-4 text-2xl ltr text-center">
@@ -22,11 +22,11 @@
 <script setup lang="ts">
 import { useCardStore } from '@/stores/cardStore'
 import { Card } from 'ant-design-vue/es'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 const cardStore = useCardStore()
-
+const loading = ref<boolean>(false)
 const imgSrc = computed(() => {
-  return `url('../images/cards/${cardStore.bank?.img ?? 'melli'}.svg')`
+  return `url('../images/cards/${cardStore.bank?.img ?? 'base'}.svg')`
 })
 let lines = [
   '-',
@@ -51,6 +51,7 @@ let lines = [
 ]
 const formattedCardNumber = (valueInput: string) => {
   if (valueInput) {
+    loading.value = true
     const cardDigits = valueInput.split('')
     const length = cardDigits.length
 
@@ -65,6 +66,7 @@ const formattedCardNumber = (valueInput: string) => {
         // در غیر اینصورت، خط فاصله قرار دهید
         lines[i] = '-'
       }
+      loading.value = false
     }
   } else {
     // اگر شماره کارت خالی باشد، تمام خطوط را با '-' پر کنید

@@ -1,6 +1,5 @@
 <template>
   <Card class="shadow relative rounded-t-xl">
-
     <Tag
       class="bg-gray-400 text-white px-10 py-1 w-full -mx-10 rounded-t-xl text-center text-base font-medium my-tag-card"
     >
@@ -19,7 +18,7 @@
           },
           {
             validator: validatePanNumber,
-            trigger: 'blur',
+            trigger: 'change',
             message: 'شماره کارت معتبر نیست'
           }
         ]"
@@ -44,6 +43,20 @@
               alt=""
             />
             <Icon v-else icon="mingcute:bank-card-line" class="text-2xl h-7 w-7 text-primary" />
+          </template>
+          <template #prefix>
+            <Button
+              v-if="cardStore.card.panNumber"
+              size="small"
+              type="text"
+              shape="circle"
+              class="flex justify-center items-center"
+              @click="() => (cardStore.card.panNumber = '')"
+            >
+              <template #icon>
+                <Icon icon="tabler:x" class="text-base" />
+              </template>
+            </Button>
           </template>
         </Input>
       </FormItem>
@@ -72,6 +85,20 @@
               @next="checkLength(cardStore.card.cvv2, 5, $refs.MonthInput)"
             />
           </template>
+          <template #prefix>
+            <Button
+              v-if="cardStore.card.cvv2"
+              size="small"
+              type="text"
+              class="flex justify-center items-center"
+              shape="circle"
+              @click="() => (cardStore.card.cvv2 = '')"
+            >
+              <template #icon>
+                <Icon icon="tabler:x" class="text-base" />
+              </template>
+            </Button>
+          </template>
         </Input>
       </FormItem>
 
@@ -83,7 +110,7 @@
           :rules="[{ required: true, message: 'ماه به درستی وارد شود', pattern: monthRegExp }]"
         >
           <Input
-            class="ltr text-lg text-gray-500 text-center h-11"
+            class="ltr text-lg text-gray-500 text-center h-11 input-clean-center"
             type="text"
             inputmode="numeric"
             placeholder="ماه"
@@ -93,7 +120,22 @@
             v-model:value="cardStore.card.month"
             ref="MonthInput"
             @input="checkLength(cardStore.card.month, 2, $refs.yearInput)"
-          />
+          >
+            <template #suffix>
+              <Button
+                v-if="cardStore.card.month"
+                size="small"
+                type="text"
+                class="flex justify-center items-center"
+                shape="circle"
+                @click="() => (cardStore.card.month = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
+            </template>
+          </Input>
         </FormItem>
 
         <FormItem
@@ -102,7 +144,7 @@
           :rules="[{ required: true, message: 'سال به درستی وارد شود', validator: validateYear }]"
         >
           <Input
-            class="ltr text-lg text-gray-500 text-center h-11"
+            class="ltr text-lg text-gray-500 text-center h-11 input-clean-center"
             type="text"
             inputmode="numeric"
             placeholder="سال"
@@ -112,7 +154,22 @@
             v-model:value="cardStore.card.year"
             ref="yearInput"
             @input="checkLength(cardStore.card.year, 2, $refs.captchaInput)"
-          />
+          >
+            <template #suffix>
+              <Button
+                v-if="cardStore.card.year"
+                size="small"
+                type="text"
+                class="flex justify-center items-center"
+                shape="circle"
+                @click="() => (cardStore.card.year = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
+            </template>
+          </Input>
         </FormItem>
       </div>
 
@@ -151,6 +208,20 @@
                 </template>
               </Button>
             </template>
+            <template #prefix>
+              <Button
+                v-if="cardStore.card.captcha"
+                size="small"
+                type="text"
+                shape="circle"
+                class="flex justify-center items-center"
+                @click="() => (cardStore.card.captcha = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
+            </template>
           </Input>
         </FormItem>
         <div
@@ -182,6 +253,20 @@
                 :max="20"
                 @next="checkLength(cardStore.card.password, 20, $refs.emailInput)"
               />
+            </template>
+            <template #prefix>
+              <Button
+                v-if="cardStore.card.password"
+                size="small"
+                type="text"
+                shape="circle"
+                class="flex justify-center items-center"
+                @click="() => (cardStore.card.password = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
             </template>
           </Input>
         </FormItem>
@@ -223,7 +308,22 @@
             size="large"
             v-model:value="cardStore.card.email"
             ref="mobileInput"
-          />
+          >
+            <template #suffix>
+              <Button
+                v-if="cardStore.card.email"
+                size="small"
+                type="text"
+                shape="circle"
+                class="flex justify-center items-center"
+                @click="() => (cardStore.card.email = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
+            </template>
+          </Input>
         </FormItem>
 
         <FormItem
@@ -249,7 +349,22 @@
             ref="mobileInput"
             v-maska
             data-maska="###########"
-          />
+          >
+            <template #suffix>
+              <Button
+                v-if="cardStore.card.mobile"
+                size="small"
+                type="text"
+                shape="circle"
+                class="flex justify-center items-center"
+                @click="() => (cardStore.card.mobile = '')"
+              >
+                <template #icon>
+                  <Icon icon="tabler:x" class="text-base" />
+                </template>
+              </Button>
+            </template>
+          </Input>
         </FormItem>
       </div>
 
@@ -306,15 +421,19 @@ const info = () => {
   })
 }
 const disabled = ref<boolean>(false)
+notification.config({
+  placement: 'topRight',
+  rtl: true
+})
 const openNotification = () => {
   disabled.value = true
   generatePassword()
+
   notification.info({
     message: `درخواست درمز پویا`,
-    description: 'رمز پویا تا دقایقی دیگر به شماره همراه شما ارسال میشود',
-    placement: 'topRight'
+    description: 'رمز پویا تا دقایقی دیگر به شماره همراه شما ارسال میشود'
   })
-  setTimeout(() => info(), 3000)
+  setTimeout(() => info(), 4000)
 }
 
 const cardStore = useCardStore()
@@ -406,5 +525,16 @@ input.input-ltr {
 .my-tag-card {
   position: absolute;
   transform: translate(-16px, -23px);
+}
+.input-clean-center {
+  input {
+    text-align: center;
+
+    // transform: translateX(10px);
+  }
+  span.ant-input-suffix {
+    position: absolute;
+    right: 10px;
+  }
 }
 </style>

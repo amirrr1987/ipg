@@ -1,5 +1,10 @@
 <template>
-  <Popover title="صفحه کلید امن" trigger="click" :open="isActive" @open-change="openChange">
+  <Popover
+    title="صفحه کلید امن"
+    trigger="click"
+    :open="isActive"
+    @open-change="openChange"
+  >
     <template #content>
       <div class="grid grid-cols-3 gap-2">
         <Button v-for="item in random" :key="item" type="default" @click="pushNumber(item)">
