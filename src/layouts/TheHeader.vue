@@ -6,7 +6,7 @@
     <div class="container mx-auto px-4 text-center">www.bki.ir</div>
   </div>
 
-  <header class="bg-white text-primary py-6 shadow">
+  <header class="bg-header text-primary py-6 shadow">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <img class="w-20" src="@/assets/images/shaparaklogo.png" alt="" />
       <div class="text-center">
@@ -17,3 +17,11 @@
     </div>
   </header>
 </template>
+
+<style lang="less">
+.bg-header{
+  background-image: url('../assets/images/header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
