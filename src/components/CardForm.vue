@@ -129,6 +129,10 @@
           :rules="[
             {
               required: true,
+              message: ''
+            },
+            {
+              required: true,
               message: 'سال به درستی وارد شود',
               trigger: 'blur',
               validator: validateYear
@@ -445,19 +449,22 @@ const checkLength = (value: string, max: number, ref: any) => {
   }
 }
 
-const validatePanNumber = (rule, value, callback) => {
+const validatePanNumber = (rule: any, value: any, callback: any) => {
   if (validateCreditCardNumber(value)) {
     callback()
   } else {
     callback(new Error('شماره کارت معتبر نیست'))
   }
 }
-const validateYear = (rule, value, callback) => {
+const validateYear = (rule: any, value: any, callback: any) => {
+  if (parseInt(value) > 96) {
+  }
+  const inputYear = parseInt('14' + value)
   const currentYear = dayjs().calendar('jalali')
-  const inputYear = parseInt(value)
-  const minYear = parseInt(currentYear.subtract(4, 'year').format('YY'))
-  const maxYear = parseInt(currentYear.add(4, 'year').format('YY'))
+  const minYear = parseInt(currentYear.subtract(4, 'year').format('YYYY'))
+  const maxYear = parseInt(currentYear.add(4, 'year').format('YYYY'))
 
+  
   if (inputYear >= minYear && inputYear <= maxYear) {
     callback()
   } else {
