@@ -120,28 +120,20 @@
             v-model:value="cardStore.card.month"
             ref="MonthInput"
             @input="checkLength(cardStore.card.month, 2, $refs.yearInput)"
-          >
-            <template #suffix>
-              <Button
-                v-if="cardStore.card.month"
-                size="small"
-                type="text"
-                class="flex justify-center items-center"
-                shape="circle"
-                @click="() => (cardStore.card.month = '')"
-              >
-                <template #icon>
-                  <Icon icon="tabler:x" class="text-base" />
-                </template>
-              </Button>
-            </template>
-          </Input>
+          />
         </FormItem>
 
         <FormItem
           class="mt-8"
           name="year"
-          :rules="[{ required: true, message: 'سال به درستی وارد شود', validator: validateYear }]"
+          :rules="[
+            {
+              required: true,
+              message: 'سال به درستی وارد شود',
+              trigger: 'blur',
+              validator: validateYear
+            }
+          ]"
         >
           <Input
             class="ltr text-lg text-gray-500 text-center h-11 input-clean-center"
@@ -154,22 +146,7 @@
             v-model:value="cardStore.card.year"
             ref="yearInput"
             @input="checkLength(cardStore.card.year, 2, $refs.captchaInput)"
-          >
-            <template #suffix>
-              <Button
-                v-if="cardStore.card.year"
-                size="small"
-                type="text"
-                class="flex justify-center items-center"
-                shape="circle"
-                @click="() => (cardStore.card.year = '')"
-              >
-                <template #icon>
-                  <Icon icon="tabler:x" class="text-base" />
-                </template>
-              </Button>
-            </template>
-          </Input>
+          />
         </FormItem>
       </div>
 
@@ -397,8 +374,14 @@ import router from '@/router'
 import { emailRegExp, mobileRegExp, monthRegExp } from '@/utils/regex'
 import { validateCreditCardNumber } from '../utils'
 import { useClipboard } from '@vueuse/core'
-import dayjs from 'dayjs'
+import * as dayjs from 'dayjs'
+import jalali from 'jalaliday'
 import Timer from '@/components/Timer.vue'
+import { useVeeValidate } from 'vee-validate'
+
+dayjs.extend(jalali)
+dayjs.calendar('jalali')
+
 const password = ref('')
 
 const { copy } = useClipboard({ password })
@@ -409,7 +392,8 @@ const info = () => {
     title: 'رمز پویا',
     content: h('div', { class: 'text-center text-xl' }, [h('p', password.value)]),
     okButtonProps: {
-      block: true
+      block: true,
+      size: 'large'
     },
     okText() {
       return 'کپی کردن'
@@ -469,21 +453,15 @@ const validatePanNumber = (rule, value, callback) => {
   }
 }
 const validateYear = (rule, value, callback) => {
-  const currentYear = dayjs()
-  console.log('🚀 ~ file: CardForm.vue:338 ~ validateYear ~ currentYear:', currentYear)
-  const minYear = currentYear - 4
-  const maxYear = currentYear + 4
+  const currentYear = dayjs().calendar('jalali')
+  const inputYear = parseInt(value)
+  const minYear = parseInt(currentYear.subtract(4, 'year').format('YY'))
+  const maxYear = parseInt(currentYear.add(4, 'year').format('YY'))
 
-  // چک کردن اعتبار سال
-  if (/^\d{2}$/.test(value)) {
-    const inputYear = parseInt(value)
-    if (inputYear >= minYear && inputYear <= maxYear) {
-      callback() // سال معتبر است
-    } else {
-      callback('سال باید بین 4 سال قبل از سال جاری و 4 سال بعد از آن باشد')
-    }
+  if (inputYear >= minYear && inputYear <= maxYear) {
+    callback()
   } else {
-    callback('سال باید به صورت دو رقمی مثل 1403 باشد')
+    callback(new Error('aa'))
   }
 }
 
@@ -531,10 +509,6 @@ input.input-ltr {
     text-align: center;
 
     // transform: translateX(10px);
-  }
-  span.ant-input-suffix {
-    position: absolute;
-    right: 10px;
   }
 }
 </style>
