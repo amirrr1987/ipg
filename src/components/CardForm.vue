@@ -457,14 +457,11 @@ const validatePanNumber = (rule: any, value: any, callback: any) => {
   }
 }
 const validateYear = (rule: any, value: any, callback: any) => {
-  if (parseInt(value) > 96) {
-  }
   const inputYear = parseInt('14' + value)
   const currentYear = dayjs().calendar('jalali')
   const minYear = parseInt(currentYear.subtract(4, 'year').format('YYYY'))
   const maxYear = parseInt(currentYear.add(4, 'year').format('YYYY'))
 
-  
   if (inputYear >= minYear && inputYear <= maxYear) {
     callback()
   } else {
