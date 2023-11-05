@@ -380,7 +380,7 @@ import { useClipboard } from '@vueuse/core'
 import * as dayjs from 'dayjs'
 import jalali from 'jalaliday'
 import Timer from '@/components/Timer.vue'
-import { useVeeValidate } from 'vee-validate'
+
 
 dayjs.extend(jalali)
 dayjs.calendar('jalali')
