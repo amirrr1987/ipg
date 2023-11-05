@@ -5,9 +5,9 @@
 import { ref, createVNode } from 'vue'
 import { Modal } from 'ant-design-vue/es'
 
-const timer = ref('10:00')
-const limitTime = ref(60)
-const tempTime = ref('03:00')
+const timer = ref('2:00')
+const limitTime = ref(30)
+const tempTime = ref('01:00')
 const time = () => {
   let minutes: string | number = parseInt(timer.value.split(':')[0])
   let seconds: string | number = parseInt(timer.value.split(':')[1])
